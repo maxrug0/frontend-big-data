@@ -28,7 +28,7 @@ export function MapView() {
           return 1;
         }
       });
-    }, 50); // Incrementa ogni 50ms
+    }, 60); // Incrementa ogni 50ms
   
     // Pulizia dell'intervallo
     return () => clearInterval(interval);

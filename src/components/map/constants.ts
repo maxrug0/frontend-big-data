@@ -2,7 +2,7 @@
 export const INITIAL_VIEW_STATE = {
   longitude: 12.4964,
   latitude: 41.9028,
-  zoom: 12, // Reduced zoom level to show more area
+  zoom: 12.7, // Reduced zoom level to show more area
   pitch: 45,
   bearing: 0
 } as const;

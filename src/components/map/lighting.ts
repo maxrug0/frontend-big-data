@@ -8,13 +8,13 @@ const ambientLight = new AmbientLight({
 const pointLight1 = new PointLight({
   color: [255, 255, 255],
   intensity: 0.8,
-  position: [12.4964, 41.9028, 80000]
+  position: [-0.144528, 49.739968, 80000]
 });
 
 const pointLight2 = new PointLight({
   color: [255, 255, 255],
   intensity: 0.8,
-  position: [12.5964, 41.8028, 8000]
+  position: [-3.807751, 54.104682, 8000]
 });
 
 export const lightingEffect = new LightingEffect({

@@ -3,7 +3,7 @@ import { Map, LineChart } from 'lucide-react';
 import styles from './Sidebar.module.css';
 
 const menuItems = [
-  { name: 'Mappa', icon: Map, path: '/' },
+  { name: 'SpatialPosts', icon: Map, path: '/' },
   { name: 'Analytics', icon: LineChart, path: '/analytics' },
 ];
 

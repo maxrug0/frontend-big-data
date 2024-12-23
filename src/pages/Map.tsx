@@ -4,8 +4,16 @@ import styles from './common.module.css';
 export function MapPage() {
   return (
     <div className={styles.container}>
+      <div className={styles.header}>
+        <h2 className={styles.title}>Mappa delle Foto Geotaggate: Analisi Visiva</h2>
+      </div>
+      <hr></hr>
       <div>
-        <h2>Distribuzione delle foto</h2>
+        <p className={styles.text}>
+          Esplora la distribuzione geografica dei post di Flickr con foto geotaggate.<br />
+          Ogni esagono rappresenta un'area che aggrega le foto pubblicate, 
+          permettendoti di scoprire i luoghi più documentati e popolari.
+        </p>
       </div>
       <div className={styles.mapWrapper}>
         <MapView />
