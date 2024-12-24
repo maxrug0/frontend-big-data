@@ -1,0 +1,8 @@
+.mapWrapper {
+    flex: 1;
+    min-height: 0; /* Important for flex container */
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(39, 39, 42, 0.5);
+  }

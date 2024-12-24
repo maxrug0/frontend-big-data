@@ -30,34 +30,8 @@
   color: #a1a1aa;
 }
 
-.mapWrapper {
-  flex: 1;
-  min-height: 0; /* Important for flex container */
-  position: relative;
-  border-radius: 12px;
-  overflow: hidden;
-  border: 1px solid rgba(39, 39, 42, 0.5);
-}
-
 hr {
   border: none;
   height: 1px;
   background: rgba(73, 73, 78, 0.5); 
-}
-
-.chartsGrid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr); /* Due colonne uguali */
-  gap: 16px; /* Spaziatura tra i grafici */
-}
-
-.chartContainer {
-  background-color: rgba(39, 39, 42, 0.8);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
-  padding: 16px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }

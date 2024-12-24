@@ -1,0 +1,23 @@
+.monthsGrid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr); /* 6 colonne di uguale larghezza */
+    grid-template-rows: repeat(2, auto); /* 2 righe, altezza adattiva */
+    gap: 16px; /* Spaziatura tra celle */
+}
+
+.chartsGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Due colonne uguali */
+    gap: 16px; /* Spaziatura tra i grafici */
+  }
+  
+  .chartContainer {
+    background-color: rgba(39, 39, 42, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }  

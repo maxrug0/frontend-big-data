@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Sidebar } from './components/layout/Sidebar';
 import { MapPage } from './pages/Map';
-import { Analytics } from './pages/Analytics';
+import { PhotoTrends } from './pages/PhotoTrends';
 import styles from './App.module.css';
 
 function App() {
@@ -12,8 +12,8 @@ function App() {
         <main className={styles.main}>
           <div className={styles.content}>
             <Routes>
-              <Route path="/" element={<MapPage />} />
-              <Route path="/analytics" element={<Analytics />} />
+              <Route path="/spatial-posts" element={<MapPage />} />
+              <Route path="/photo-trends" element={<PhotoTrends />} />
             </Routes>
           </div>
         </main>

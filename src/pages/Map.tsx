@@ -1,5 +1,6 @@
 import { MapView } from '../components/map/MapView';
 import styles from './common.module.css';
+import map_styles from './map.module.css';
 
 export function MapPage() {
   return (
@@ -15,7 +16,7 @@ export function MapPage() {
           permettendoti di scoprire i luoghi più documentati e popolari.
         </p>
       </div>
-      <div className={styles.mapWrapper}>
+      <div className={map_styles.mapWrapper}>
         <MapView />
       </div>
     </div>

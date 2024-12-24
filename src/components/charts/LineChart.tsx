@@ -17,14 +17,13 @@ import {
     LineElement,
     Title,
     Tooltip,
-    Legend
   );
   
   const options = {
     responsive: true,
     plugins: {
       legend: {
-        position: 'top' as const,
+        display: false,
       },
       title: {
         display: true,
@@ -54,18 +53,22 @@ import {
   
   const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
   
-  const data = {
-    labels,
-    datasets: [
-      {
-        label: 'Visits 2024',
-        data: [65, 59, 80, 81, 56, 55, 40],
-        borderColor: 'rgb(75, 192, 192)',
-        backgroundColor: 'rgba(75, 192, 192, 0.5)',
-      }
-    ],
-  };
+  interface LineChartProps {
+    lineColor?: string; 
+  }
   
-  export function LineChartComponent() {
+  export function LineChartComponent({lineColor='rgb(75, 192, 192)'}: LineChartProps) {
+    const data = {
+      labels,
+      datasets: [
+        {
+          label: 'Visits 2024',
+          data: [65, 59, 80, 81, 56, 55, 40],
+          borderColor: lineColor,
+          backgroundColor: lineColor.replace('rgb', 'rgba').replace(')', ', 0.5)'),
+        }
+      ],
+    };
+
     return <Line options={options} data={data} />;
   }
