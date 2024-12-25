@@ -1,8 +1,8 @@
-import { MapView } from '../components/map/MapView';
-import styles from './common.module.css';
+import { MapView } from '../../components/maps/deckgl/MapView';
+import styles from '../common.module.css';
 import map_styles from './map.module.css';
 
-export function MapPage() {
+export function SpatialPosts() {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
