@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Sidebar } from './components/layout/Sidebar';
 import { SpatialPosts } from './pages/mappa/SpatialPosts';
 import { Clusters } from './pages/mappa/Clusters';
-import { PhotoTrends } from './pages/PhotoTrends';
+import { PhotoTrends } from './pages/analytics/PhotoTrends';
 import styles from './App.module.css';
 
 function App() {
