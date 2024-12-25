@@ -2,13 +2,13 @@ import { useEffect, useState } from 'react';
 import DeckGL from '@deck.gl/react';
 import { Map } from 'react-map-gl/maplibre';
 import 'maplibre-gl/dist/maplibre-gl.css';
-import { INITIAL_VIEW_STATE, MAP_STYLE } from './constants';
+import { INITIAL_VIEW_STATE, MAP_STYLE } from '../constants';
 import { createHexagonLayer } from './layers';
-import { lightingEffect } from './lighting';
+import { lightingEffect } from '../lighting';
 import { getTooltip } from './tooltip';
 import { loadCoordinates } from '@/lib/coordinates';
 import type { Coordinate } from '@/lib/types';
-import styles from './MapView.module.css';
+import styles from '../MapView.module.css';
 
 export function MapView() {
   const [coordinates, setCoordinates] = useState<Coordinate[]>([]);

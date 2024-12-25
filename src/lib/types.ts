@@ -8,3 +8,10 @@ export interface CoordinateData {
   longitude: number;
   intensity: number;
 }
+
+export type ClusterData = {
+  latitude: number;
+  longitude: number;
+  radiusKm: number;
+  count: number;
+};

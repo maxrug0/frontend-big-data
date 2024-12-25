@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Sidebar } from './components/layout/Sidebar';
-import { MapPage } from './pages/Map';
+import { SpatialPosts } from './pages/mappa/SpatialPosts';
+import { Clusters } from './pages/mappa/Clusters';
 import { PhotoTrends } from './pages/PhotoTrends';
 import styles from './App.module.css';
 
@@ -12,7 +13,8 @@ function App() {
         <main className={styles.main}>
           <div className={styles.content}>
             <Routes>
-              <Route path="/spatial-posts" element={<MapPage />} />
+              <Route path="/spatial-posts" element={<SpatialPosts />} />
+              <Route path="/clusters" element={<Clusters />} />
               <Route path="/photo-trends" element={<PhotoTrends />} />
             </Routes>
           </div>
