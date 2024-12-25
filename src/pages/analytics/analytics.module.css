@@ -1,9 +1,31 @@
 .monthsGrid {
     display: grid;
-    grid-template-columns: repeat(6, 1fr); /* 6 colonne di uguale larghezza */
-    grid-template-rows: repeat(2, auto); /* 2 righe, altezza adattiva */
+    grid-template-columns: repeat(4, 1fr); /* 4 colonne di uguale larghezza */
+    grid-template-rows: repeat(3, auto); /* 3 righe, altezza adattiva */
     gap: 16px; /* Spaziatura tra celle */
 }
+
+.selectLabel {
+  font-weight: bold;
+  margin-right: 8px;
+}
+
+.select {
+  padding: 8px;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  background-color: #f9f9f9;
+  color: #333;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.select:focus {
+  border-color: rgb(75, 192, 192);
+  box-shadow: 0 0 5px rgba(75, 192, 192, 0.5);
+}
+
 
 .chartsGrid {
     display: grid;
