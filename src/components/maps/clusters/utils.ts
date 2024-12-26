@@ -1,13 +1,14 @@
 import type { ClusterData } from '@/lib/types';
 
-export function parseClusterData(data: [number, number, number, number][]): ClusterData[] {
-    return data.map(([lat, lon, radiusKm, count]) => ({
-      latitude: lat,
-      longitude: lon,
-      radiusKm,
-      count,
+  export function parseClusterData(data: Array<{ centroidX: number; centroidY: number; count: number; radius: number }>): ClusterData[] {
+    return data.map(({ centroidX, centroidY, count, radius }) => ({
+        latitude: centroidX,
+        longitude: centroidY,
+        count,
+        radiusM: radius,
     }));
-  }
+}
+
   
 export function formatNumber(num: number): string {
     if (num >= 1000000) {

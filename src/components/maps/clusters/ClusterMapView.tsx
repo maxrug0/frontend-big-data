@@ -8,21 +8,32 @@ import { createClusterLayer } from './layers';
 import { parseClusterData, formatNumber } from './utils';
 import styles from '../MapView.module.css';
 import type { ClusterData } from '@/lib/types';
+import { getCentroidsKMeans  } from '@/components/api';
 
 export function ClusterMapView() {
   const [clusterData, setClusterData] = useState<ClusterData[]>([]);
+  const [k, setValueK] = useState<number>(5);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [layers, setLayers] = useState<any[]>([])
+
 
   useEffect(() => {
-    // Simulazione di dati statici (può essere sostituita da un'API)
-    const clusterData: [number, number, number, number][] = [
-      [41.89375298280308, 12.488658329158346, 5, 250000],
-      [41.90356198801827, 12.459961948517668, 3, 180000],
-      [41.86275078302506, 12.580846400826982, 4, 120000],
-    ];
-    setClusterData(parseClusterData(clusterData));
+    const fetchClusterData = async () => {
+      try {
+          const clusterDataRaw = await getCentroidsKMeans(k);
+          console.log("Dati ricevuti dall'API:", clusterDataRaw); // <-- Logga i dati
+          const parsedData = parseClusterData(clusterDataRaw);
+          setClusterData(parsedData);
+          setLayers([createClusterLayer(parsedData)]);
+      } catch (error) {
+          console.error('Errore nel recupero dei dati annuali:', error);
+      } finally {
+          setIsLoading(false);
+      }
+  };
+  
+    fetchClusterData();
   }, []);
-
-  const layers = [createClusterLayer(clusterData)];
 
   return (
     <div className={styles.container}>

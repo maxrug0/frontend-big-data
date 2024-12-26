@@ -12,6 +12,6 @@ export interface CoordinateData {
 export type ClusterData = {
   latitude: number;
   longitude: number;
-  radiusKm: number;
+  radiusM: number;
   count: number;
 };

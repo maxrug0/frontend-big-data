@@ -24,15 +24,7 @@ export function PhotoTrends() {
   useEffect(() => {
     const fetchYearData = async () => {
       try {
-        // const data = await getPhotoCountByYear(); // Commento la chiamata API
-        const data = [
-          { year: 2018, count: 120 },
-          { year: 2019, count: 150 },
-          { year: 2020, count: 180 },
-          { year: 2021, count: 200 },
-          { year: 2022, count: 220 },
-          { year: 2023, count: 250 },
-        ];
+        const data = await getPhotoCountByYear(); // Commento la chiamata API
         setYearLabels(data.map((item: any) => item.year));
         setYearData(data.map((item: any) => item.count));
       } catch (error) {
@@ -47,21 +39,7 @@ export function PhotoTrends() {
   useEffect(() => {
     const fetchMonthData = async () => {
       try {
-        // const data = await getPhotoCountByMonth(); // Commento la chiamata API
-        const data = [
-          { month: 'Gennaio', count: 300 },
-          { month: 'Febbraio', count: 280 },
-          { month: 'Marzo', count: 320 },
-          { month: 'Aprile', count: 400 },
-          { month: 'Maggio', count: 380 },
-          { month: 'Giugno', count: 420 },
-          { month: 'Luglio', count: 500 },
-          { month: 'Agosto', count: 480 },
-          { month: 'Settembre', count: 450 },
-          { month: 'Ottobre', count: 430 },
-          { month: 'Novembre', count: 460 },
-          { month: 'Dicembre', count: 470 },
-        ];
+        const data = await getPhotoCountByMonth(); // Commento la chiamata API
         setMonthLabels(data.map((item: any) => item.month));
         setMonthData(data.map((item: any) => item.count));
       } catch (error) {
@@ -76,22 +54,7 @@ export function PhotoTrends() {
   useEffect(() => {
     const fetchMonthlyData = async () => {
       try {
-        //const data = await getPhotoPerMonthByYear(selectedYear);
-        const data = [
-          { month: 'Gennaio', count: 22340 },
-          { month: 'Febbraio', count: 364360 },
-          { month: 'Marzo', count: 532140 },
-          { month: 'Aprile', count: 4032 },
-          { month: 'Maggio', count: 63240 },
-          { month: 'Giugno', count: 3240 },
-          { month: 'Luglio', count: 81230 },
-          { month: 'Agosto', count: 94230 },
-          { month: 'Settembre', count: 10340 },
-          { month: 'Ottobre', count: 11210 },
-          { month: 'Novembre', count: 12210 },
-          { month: 'Dicembre', count: 13320 },
-        ];
-
+        const data = await getPhotoPerMonthByYear(selectedYear);
         const processedData = data.map((item: any, index: number, arr: any[]) => {
           const previousCount = index > 0 ? arr[index - 1].count : 0;
           const difference = index > 0 ? item.count - previousCount : 0;

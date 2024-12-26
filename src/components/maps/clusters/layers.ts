@@ -11,7 +11,7 @@ export function createClusterLayer(clusterData: ClusterData[]) {
           data: clusterData,
           pickable: true,
           getPosition: (d: ClusterData) => [d.longitude, d.latitude],
-          getRadius: (d: ClusterData) => d.radiusKm * 100, // Il raggio è fisso e basato sul raggio del cluster
+          getRadius: (d: ClusterData) => d.radiusM , // Il raggio è fisso e basato sul raggio del cluster
           radiusUnits: 'meters',
           getFillColor: (d: ClusterData) => {
             const color = getColorForCount(d.count, maxCount);

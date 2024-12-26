@@ -80,7 +80,7 @@ export const getPhotoCountByYear = async (): Promise<any[]> => {
 };
 
 export const getPhotoPerMonthByYear = async (year: number): Promise<any[]> => {
-  const response = await api.get(`/photoCountPerMonthByYear`,{ params: { year } });
+  const response = await api.get(`/photoPostedPerMonthByYear`,{ params: { year } });
   return response.data;
 };
 
@@ -98,5 +98,14 @@ export const getProUsersVsNonPro = async (): Promise<ProVsNonProResponse> => {
 
 export const getAccuracyDistribution = async (): Promise<any[]> => {
   const response = await api.get(`/accuracyDistribution`);
+  return response.data;
+};
+
+export const getCentroidsKMeans = async (
+  k: number
+): Promise<any[]> => {
+  const response = await api.get(`/runKMeans`,{
+    params: { k },
+  });
   return response.data;
 };
