@@ -4,6 +4,7 @@ import { SpatialPosts } from './pages/mappa/SpatialPosts';
 import { Clusters } from './pages/mappa/Clusters';
 import { PhotoTrends } from './pages/analytics/PhotoTrends';
 import styles from './App.module.css';
+import { TopOwners } from './pages/foto/TopOwners';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
               <Route path="/spatial-posts" element={<SpatialPosts />} />
               <Route path="/clusters" element={<Clusters />} />
               <Route path="/photo-trends" element={<PhotoTrends />} />
+              <Route path="/top-owners" element={<TopOwners />} />
             </Routes>
           </div>
         </main>

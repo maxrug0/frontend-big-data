@@ -1,0 +1,29 @@
+.grid{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    width: 100%;
+}
+
+/*
+   grid-column: 1/-1 -> dal primo all'ultimo bordo della griglia
+*/
+.grid > *:first-child{ 
+    grid-column: 1/-1;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.loading{
+    text-align: center;
+    color: #a1a1aa;
+    font-size: 1.1rem;
+    padding: 2rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
+  }
