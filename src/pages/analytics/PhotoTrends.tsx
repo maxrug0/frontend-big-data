@@ -20,9 +20,11 @@ export function PhotoTrends() {
       direction: 'up' | 'down' 
     } 
   }[]>([]);
+  const [isMonthlyDataLoading, setIsMonthlyDataLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchYearData = async () => {
+      setIsMonthlyDataLoading(true);
       try {
         const data = await getPhotoCountByYear(); // Commento la chiamata API
         setYearLabels(data.map((item: any) => item.year));
@@ -70,6 +72,8 @@ export function PhotoTrends() {
         setMonthlyData(processedData);
       } catch (error) {
         console.error('Errore nel recupero dei dati mensili per anno:', error);
+      } finally {
+        setIsMonthlyDataLoading(false); // Fine caricamento
       }
     };
     fetchMonthlyData();
@@ -128,17 +132,19 @@ export function PhotoTrends() {
         </div>
 
         <div className={analytics_styles.monthsGrid}>
-          {monthlyData.map((item) => (
-            <div key={item.month} className={analytics_styles.monthCard}>
-              <h3>{item.month}</h3>
-              <p style={{ fontSize: '24px', fontWeight: 'bold'}}> 
-                {item.count}
-              </p>
-              <p style={{ color: item.trend.direction === 'up' ? 'green' : 'red' }}>
+          {isMonthlyDataLoading ? (
+            <div className={styles.loader}>Caricamento dati...</div> // Mostra la rotella di caricamento
+          ) : (
+            monthlyData.map((item) => (
+              <div key={item.month} className={analytics_styles.monthCard}>
+                <h3>{item.month}</h3>
+                <p style={{ fontSize: '24px', fontWeight: 'bold' }}>{item.count}</p>
+                <p style={{ color: item.trend.direction === 'up' ? 'green' : 'red' }}>
                   {item.trend.value} {item.trend.direction === 'up' ? '↑' : '↓'}
-              </p>
-            </div>
-          ))}
+                </p>
+              </div>
+            ))
+          )}
         </div>
       </div>
     </div>
