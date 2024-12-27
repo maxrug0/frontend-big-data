@@ -10,42 +10,46 @@ import styles from '../MapView.module.css';
 import type { ClusterData } from '@/lib/types';
 import { getCentroidsKMeans  } from '@/components/api';
 
-export function ClusterMapView() {
-  const [clusterData, setClusterData] = useState<ClusterData[]>([]);
-  const [k, setValueK] = useState<number>(5);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [layers, setLayers] = useState<any[]>([])
+interface ClusterMapProps {
+  k: number;
+}
 
+export function ClusterMapView({ k }: ClusterMapProps) {
+  const [clusterData, setClusterData] = useState<ClusterData[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [layers, setLayers] = useState<any[]>([]);
 
   useEffect(() => {
     const fetchClusterData = async () => {
+      setIsLoading(true); // Mostra caricamento
       try {
-          const clusterDataRaw = await getCentroidsKMeans(k);
-          console.log("Dati ricevuti dall'API:", clusterDataRaw); // <-- Logga i dati
-          const parsedData = parseClusterData(clusterDataRaw);
-          setClusterData(parsedData);
-          setLayers([createClusterLayer(parsedData)]);
+        const clusterDataRaw = await getCentroidsKMeans(k); // Richiama l'API con il nuovo valore di k
+        console.log("Dati ricevuti dall'API:", clusterDataRaw);
+        const parsedData = parseClusterData(clusterDataRaw);
+        setClusterData(parsedData);
+        setLayers([createClusterLayer(clusterData)]);
       } catch (error) {
-          console.error('Errore nel recupero dei dati annuali:', error);
+        console.error('Errore nel recupero dei dati dei cluster:', error);
       } finally {
-          setIsLoading(false);
+        setIsLoading(false); // Nascondi caricamento
       }
-  };
-  
+    };
+
     fetchClusterData();
-  }, []);
+  }, [k]); // Effettua la chiamata ogni volta che k cambia
 
   return (
     <div className={styles.container}>
+      {isLoading && <div>Caricamento dati...</div>} {/* Mostra messaggio di caricamento */}
       <DeckGL
         initialViewState={INITIAL_VIEW_STATE_CLUSTER}
         controller={{
-          dragRotate: false, // Disabilita lo spostamento verticale
-          doubleClickZoom: false, // Disabilita lo zoom con doppio clic
+          dragRotate: false,
+          doubleClickZoom: false,
         }}
         layers={layers}
         effects={[lightingEffect]}
-        getTooltip={({ object } : { object: ClusterData | null | undefined }) =>
+        getTooltip={({ object }: { object: ClusterData | null | undefined }) =>
           object
             ? `Lat: ${object.latitude.toFixed(6)}\nLng: ${object.longitude.toFixed(6)}\nCount: ${formatNumber(
                 object.count
