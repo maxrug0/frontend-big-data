@@ -4,17 +4,14 @@ import type { ClusterData, Owner } from '@/lib/types';
     centroidX: number;
     centroidY: number;
     count: number;
-    radius: number 
   }>):ClusterData[] {
     return data.map(({ 
       centroidX, 
       centroidY, 
-      count, 
-      radius }) => ({
+      count }) => ({
         latitude: centroidX,
         longitude: centroidY,
         count,
-        radiusM: radius,
     }));
 }
 

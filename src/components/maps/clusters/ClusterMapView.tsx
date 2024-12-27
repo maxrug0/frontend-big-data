@@ -1,46 +1,24 @@
-import { useEffect, useState } from 'react';
-import DeckGL from '@deck.gl/react';
+import { DeckGL } from '@deck.gl/react';
 import { Map } from 'react-map-gl/maplibre';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { INITIAL_VIEW_STATE_CLUSTER, MAP_STYLE } from '../constants';
 import { lightingEffect } from '../lighting';
 import { createClusterLayer } from './layers';
-import { parseClusterData, formatNumber } from './utils';
+import { formatNumber } from './utils';
 import styles from '../MapView.module.css';
 import type { ClusterData } from '@/lib/types';
-import { getCentroidsKMeans  } from '@/components/api';
 
 interface ClusterMapProps {
-  k: number;
+  clusterData: ClusterData[];
+  isLoading: boolean;
 }
 
-export function ClusterMapView({ k }: ClusterMapProps) {
-  const [clusterData, setClusterData] = useState<ClusterData[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [layers, setLayers] = useState<any[]>([]);
-
-  useEffect(() => {
-    const fetchClusterData = async () => {
-      setIsLoading(true); // Mostra caricamento
-      try {
-        const clusterDataRaw = await getCentroidsKMeans(k); // Richiama l'API con il nuovo valore di k
-        console.log("Dati ricevuti dall'API:", clusterDataRaw);
-        const parsedData = parseClusterData(clusterDataRaw);
-        setClusterData(parsedData);
-        setLayers([createClusterLayer(clusterData)]);
-      } catch (error) {
-        console.error('Errore nel recupero dei dati dei cluster:', error);
-      } finally {
-        setIsLoading(false); // Nascondi caricamento
-      }
-    };
-
-    fetchClusterData();
-  }, [k]); // Effettua la chiamata ogni volta che k cambia
+export function ClusterMapView({ clusterData, isLoading }: ClusterMapProps) {
+  const layers = clusterData.length ? [createClusterLayer(clusterData)] : [];
 
   return (
     <div className={styles.container}>
-      {isLoading && <div>Caricamento dati...</div>} {/* Mostra messaggio di caricamento */}
+      {isLoading && <div>Caricamento dati...</div>}
       <DeckGL
         initialViewState={INITIAL_VIEW_STATE_CLUSTER}
         controller={{

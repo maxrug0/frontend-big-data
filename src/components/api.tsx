@@ -1,4 +1,5 @@
 import axios from "axios";
+import type { ClusterData } from "@/lib/types";
 
 // Configura l'istanza base di Axios
 const api = axios.create({
@@ -103,7 +104,7 @@ export const getAccuracyDistribution = async (): Promise<any[]> => {
 
 export const getCentroidsKMeans = async (
   k: number
-): Promise<any[]> => {
+): Promise<ClusterData[]> => {
   const response = await api.get(`/runKMeans`,{
     params: { k },
   });

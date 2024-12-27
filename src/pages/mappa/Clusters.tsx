@@ -1,18 +1,39 @@
 import { useState } from 'react';
 import { ClusterControls } from '../../components/maps/clusters/ClusterControl';
 import { ClusterMapView } from '../../components/maps/clusters/ClusterMapView';
+import { getCentroidsKMeans } from '@/components/api';
 import styles from '../common.module.css';
 import map_styles from './map.module.css';
+import type { ClusterData } from '@/lib/types';
 
 export function Clusters() {
-  const [k, setK] = useState<number>(5); // Stato condiviso per il numero di cluster
+  const [k, setK] = useState<number>(5);
+  const [clusterData, setClusterData] = useState<ClusterData[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const fetchClusterData = async (clusters: number) => {
+    setIsLoading(true);
+    try {
+      const clusterDataRaw = await getCentroidsKMeans(clusters);
+      setClusterData(clusterDataRaw);
+    } catch (error) {
+      console.error('Errore nel recupero dei dati dei cluster:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleVisualizza = (clusters: number) => {
+    setK(clusters); // Aggiorna lo stato di k
+    fetchClusterData(clusters); // Recupera i dati
+  };
 
   return (
     <div className={styles.container}>
       <div className={styles.header}>
         <h2 className={styles.title}>Mappa dei Cluster: Analisi Geografica</h2>
       </div>
-      <hr></hr>
+      <hr />
       <div>
         <p className={styles.text}>
           Esplora la distribuzione geografica dei dati attraverso i cluster.<br />
@@ -21,10 +42,10 @@ export function Clusters() {
         </p>
       </div>
       <div>
-        <ClusterControls k={k} setK={setK} /> {/* Passa k e setK */}
+        <ClusterControls k={k} onVisualizza={handleVisualizza} />
       </div>
       <div className={map_styles.mapWrapper}>
-        <ClusterMapView k={k} /> {/* Passa k */}
+        <ClusterMapView clusterData={clusterData} isLoading={isLoading} />
       </div>
     </div>
   );
