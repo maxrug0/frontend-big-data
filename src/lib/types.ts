@@ -19,7 +19,6 @@ export type ClusterData = {
 export interface Photo {
   url: string;
   views: number;
-  comments: number;
 }
 
 export interface Owner {
@@ -28,4 +27,5 @@ export interface Owner {
   avatarUrl: string;
   totalPhotos: number;
   bestPhoto: Photo;
+
 }

@@ -109,3 +109,8 @@ export const getCentroidsKMeans = async (
   });
   return response.data;
 };
+
+export const getTop100Owners = async (): Promise<any[]> => {
+  const response = await api.get(`/top100Owners`);
+  return response.data;
+};

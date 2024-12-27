@@ -21,10 +21,6 @@ export function OnwerCard({ owner }: OwnerProps){
                             <Eye className={styles.icon} />
                             <span>{formatNumber(owner.bestPhoto.views)} visualizzazioni</span>
                         </div>
-                        <div className={styles.stat}>
-                            <span>💬</span>
-                            <span>{formatNumber(owner.bestPhoto.comments)} comments</span>
-                        </div>
                     </div>
                 </div>
             </div>

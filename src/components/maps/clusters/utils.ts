@@ -1,13 +1,51 @@
-import type { ClusterData } from '@/lib/types';
+import type { ClusterData, Owner } from '@/lib/types';
 
-  export function parseClusterData(data: Array<{ centroidX: number; centroidY: number; count: number; radius: number }>): ClusterData[] {
-    return data.map(({ centroidX, centroidY, count, radius }) => ({
+  export function parseClusterData(data: Array<{
+    centroidX: number;
+    centroidY: number;
+    count: number;
+    radius: number 
+  }>):ClusterData[] {
+    return data.map(({ 
+      centroidX, 
+      centroidY, 
+      count, 
+      radius }) => ({
         latitude: centroidX,
         longitude: centroidY,
         count,
         radiusM: radius,
     }));
 }
+
+export function parseOwnersData(data: Array<{ 
+  rank: number; 
+  user_id: string; 
+  username: string; 
+  avatar_url: string; 
+  total_photos: number; 
+  best_photo_url: string; 
+  total_views: number;
+}>): Owner[] {
+  return data.map(({ 
+    rank, 
+    username, 
+    avatar_url, 
+    total_photos, 
+    best_photo_url, 
+    total_views 
+  }) => ({
+    rank,
+    name: username,
+    avatarUrl: avatar_url,
+    totalPhotos: total_photos,
+    bestPhoto: {
+      url: best_photo_url,
+      views: total_views,
+    }
+  }));
+}
+
 
   
 export function formatNumber(num: number): string {
