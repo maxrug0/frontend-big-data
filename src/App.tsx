@@ -1,10 +1,14 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Sidebar } from './components/layout/Sidebar';
-import { SpatialPosts } from './pages/mappa/SpatialPosts';
-import { Clusters } from './pages/mappa/Clusters';
-import { PhotoTrends } from './pages/analytics/PhotoTrends';
 import styles from './App.module.css';
-import { TopOwners } from './pages/foto/TopOwners';
+
+import { SpatialPosts } from './pages/maps/SpatialPosts';
+import { Clusters } from './pages/maps/Clusters';
+
+import { PhotoTrends } from './pages/analytics/PhotoTrends';
+import { TagRules } from './pages/analytics/TagRules';
+
+import { TopOwners } from './pages/users-photos/TopOwners';
 
 function App() {
   return (
@@ -14,10 +18,11 @@ function App() {
         <main className={styles.main}>
           <div className={styles.content}>
             <Routes>
-              <Route path="/spatial-posts" element={<SpatialPosts />} />
+              <Route path="/" element={<SpatialPosts />} />
               <Route path="/clusters" element={<Clusters />} />
               <Route path="/photo-trends" element={<PhotoTrends />} />
               <Route path="/top-owners" element={<TopOwners />} />
+              <Route path="/tag-rules" element={<TagRules />} />
             </Routes>
           </div>
         </main>

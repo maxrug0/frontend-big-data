@@ -8,7 +8,8 @@ import {
   TrendingUp,
   Trophy,
   SearchCode,
-  Camera
+  Camera,
+  Tags,
 } from 'lucide-react';
 import styles from './Sidebar.module.css';
 
@@ -17,21 +18,24 @@ const menuItems = [
     name: 'Mappa',
     icon: Map,
     subMenu: [
-      { name: 'SpatialPosts', icon: Satellite, path: '/spatial-posts' },
+      { name: 'Post geotaggati', icon: Satellite, path: '/' },
       { name: 'Clusters', icon: Orbit, path: '/clusters' },
     ],
   },
   {
-    name: 'Analytics',
+    name: 'Analisi e tendenze',
     icon: ChartCandlestick,
-    subMenu: [{ name: 'Photo Trends', icon: TrendingUp, path: '/photo-trends' }],
+    subMenu: [
+      { name: 'Tendenze fotografiche', icon: TrendingUp, path: '/photo-trends' },
+      { name: 'Associazioni di tag', icon: Tags, path: '/tag-rules' },
+    ],
   },
   {
-    name: 'Foto',
+    name: 'Utenti e foto',
     icon: Camera,
     subMenu: [
       { name: 'Top owners', icon: Trophy, path: '/top-owners' },
-      { name: 'Ricerca per tag', icon: SearchCode, path: '/tag-based' },
+      { name: 'Ricerca foto', icon: SearchCode, path: '/tag-based' },
     ],
   },
 ];

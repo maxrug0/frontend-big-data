@@ -1,17 +1,18 @@
-import { LineChartComponent } from '../../components/charts/LineChart';
+import { LineChartComponent } from '@/components/analytics/photo-trends/LineChart';
 import styles from '../common.module.css';
 import analytics_styles from './analytics.module.css';
 import { useEffect, useState } from 'react';
-import { getPhotoCountByMonth, getPhotoCountByYear, getPhotoPerMonthByYear } from '@/components/api';
+import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
+import { getPhotoCountByMonth, getPhotoCountByYear, getPhotoPerMonthByYear } from '@/components/api/api';
 
 export function PhotoTrends() {
   const [yearLabels, setYearLabels] = useState<number[]>([]);
   const [yearData, setYearData] = useState<number[]>([]);
   const [monthLabels, setMonthLabels] = useState<string[]>([]);
   const [monthData, setMonthData] = useState<number[]>([]);
-  const [isYearLoading, setIsYearLoading] = useState<boolean>(true);
-  const [isMonthLoading, setIsMonthLoading] = useState<boolean>(true);
+
   const [selectedYear, setSelectedYear] = useState<number>(2004);
+
   const [monthlyData, setMonthlyData] = useState<{ 
     month: string; 
     count: number; 
@@ -20,6 +21,9 @@ export function PhotoTrends() {
       direction: 'up' | 'down' 
     } 
   }[]>([]);
+
+  const [isYearLoading, setIsYearLoading] = useState<boolean>(true);
+  const [isMonthLoading, setIsMonthLoading] = useState<boolean>(true);
   const [isMonthlyDataLoading, setIsMonthlyDataLoading] = useState<boolean>(true);
 
   useEffect(() => {
@@ -84,11 +88,12 @@ export function PhotoTrends() {
       <div className={styles.header}>
         <h1 className={styles.title}>Analisi delle foto pubblicate nel tempo</h1>
       </div>
-      <div className={styles.content}>
+      <hr></hr>
+      <div >
         <div className={analytics_styles.chartsGrid}>
           <div className={analytics_styles.chartContainer}>
             {isYearLoading ? (
-              <div className={styles.loader}>Caricamento dati annuali...</div>
+              <LoadingSpinner />
             ) : (
               <LineChartComponent
                 lineColor='rgb(0, 128, 191)'
@@ -100,7 +105,7 @@ export function PhotoTrends() {
           </div>
           <div className={analytics_styles.chartContainer}>
             {isMonthLoading ? (
-              <div className={styles.loader}>Caricamento dati mensili...</div>
+              <LoadingSpinner />
             ) : (
               <LineChartComponent
                 lineColor='rgb(255, 87, 34)'
@@ -133,7 +138,9 @@ export function PhotoTrends() {
 
         <div className={analytics_styles.monthsGrid}>
           {isMonthlyDataLoading ? (
-            <div className={styles.loader}>Caricamento dati...</div> // Mostra la rotella di caricamento
+            <div className={analytics_styles.loadingContainer}>
+              <LoadingSpinner />
+            </div>
           ) : (
             monthlyData.map((item) => (
               <div key={item.month} className={analytics_styles.monthCard}>

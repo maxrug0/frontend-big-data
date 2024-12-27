@@ -28,3 +28,17 @@ export interface Owner {
   bestPhoto: Photo;
 
 }
+
+export interface AssociationRule {
+  antecedent: string[];
+  consequent: string[];
+  confidence: number;
+  lift: number;
+  support: number;
+}
+
+export interface RuleMetrics {
+  confidence: number;
+  lift: number;
+  support: number;
+}

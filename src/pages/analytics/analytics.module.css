@@ -69,4 +69,40 @@ margin-right: 8px;
   align-items: center;
   justify-content: center;
   width: 100%;
-}  
+}
+
+.explanation {
+  margin-bottom: 2rem;
+  color: #a1a1aa;
+  line-height: 1.6;
+}
+
+.metrics {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  list-style-type: none;
+}
+
+.metrics li {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.metrics strong {
+  color: white;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.loadingContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 600px;
+}
