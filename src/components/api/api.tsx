@@ -2,8 +2,9 @@ import axios from "axios";
 import type { ClusterData, AssociationRule } from "@/lib/types";
 
 const api = axios.create({
-  //baseURL: "https://bqgq98pb-8080.euw.devtunnels.ms", 
-  baseURL: "http://localhost:8080", 
+  //baseURL: "https://ec38-84-221-153-26.ngrok-free.app", 
+  //baseURL: "http://localhost:8080", 
+  baseURL: "https://bqgq98pb-8080.euw.devtunnels.ms", 
 });
 
 
@@ -35,7 +36,7 @@ export const getPhotoPerMonthByYear = async (year: number): Promise<any[]> => {
 
 // TagRules
 export const getAssociationRules = async(): Promise<AssociationRule[]> => {
-  const response = await api.get('//tagAssociationRules')
+  const response = await api.get('/tagAssociationRules')
   return response.data;
 }
 
@@ -43,6 +44,6 @@ export const getAssociationRules = async(): Promise<AssociationRule[]> => {
 
 // TopOwners
 export const getTopOwners = async (): Promise<any[]> => {
-  const response = await api.get(`/topOwners`);
+  const response = await api.get(`/top5Owners`);
   return response.data;
 };

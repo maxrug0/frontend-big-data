@@ -28,7 +28,7 @@ export function PhotoTrends() {
 
   useEffect(() => {
     const fetchYearData = async () => {
-      setIsMonthlyDataLoading(true);
+      setIsYearLoading(true);
       try {
         const data = await getPhotoCountByYear(); // Commento la chiamata API
         setYearLabels(data.map((item: any) => item.year));
@@ -45,6 +45,7 @@ export function PhotoTrends() {
   useEffect(() => {
     const fetchMonthData = async () => {
       try {
+        setIsMonthLoading(true);
         const data = await getPhotoCountByMonth(); // Commento la chiamata API
         setMonthLabels(data.map((item: any) => item.month));
         setMonthData(data.map((item: any) => item.count));
@@ -60,6 +61,7 @@ export function PhotoTrends() {
   useEffect(() => {
     const fetchMonthlyData = async () => {
       try {
+        setIsMonthlyDataLoading(true);
         const data = await getPhotoPerMonthByYear(selectedYear);
         const processedData = data.map((item: any, index: number, arr: any[]) => {
           const previousCount = index > 0 ? arr[index - 1].count : 0;
@@ -135,24 +137,26 @@ export function PhotoTrends() {
             ))}
           </select>
         </div>
-
-        <div className={analytics_styles.monthsGrid}>
+        <div className={styles.content}>
           {isMonthlyDataLoading ? (
             <div className={analytics_styles.loadingContainer}>
               <LoadingSpinner />
             </div>
           ) : (
-            monthlyData.map((item) => (
-              <div key={item.month} className={analytics_styles.monthCard}>
-                <h3>{item.month}</h3>
-                <p style={{ fontSize: '24px', fontWeight: 'bold' }}>{item.count}</p>
-                <p style={{ color: item.trend.direction === 'up' ? 'green' : 'red' }}>
-                  {item.trend.value} {item.trend.direction === 'up' ? '↑' : '↓'}
-                </p>
-              </div>
-            ))
+            <div className={analytics_styles.monthsGrid}>
+              {monthlyData.map((item) => (
+                <div key={item.month} className={analytics_styles.monthCard}>
+                  <h3>{item.month}</h3>
+                  <p style={{ fontSize: '24px', fontWeight: 'bold' }}>{item.count}</p>
+                  <p style={{ color: item.trend.direction === 'up' ? 'green' : 'red' }}>
+                    {item.trend.value} {item.trend.direction === 'up' ? '↑' : '↓'}
+                  </p>
+                </div>
+              ))}
+            </div>
           )}
         </div>
+
       </div>
     </div>
   );

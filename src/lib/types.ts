@@ -42,3 +42,17 @@ export interface RuleMetrics {
   lift: number;
   support: number;
 }
+
+export interface PhotoSearched {
+  url: string;
+  username: string;
+  tags: string[];
+  views: number;
+}
+
+export interface PhotoSearchFilters {
+  startYear: number;
+  endYear: number;
+  keyword: string;
+  tags: string[];
+}

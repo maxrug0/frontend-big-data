@@ -7,6 +7,7 @@ import { Clusters } from './pages/maps/Clusters';
 
 import { PhotoTrends } from './pages/analytics/PhotoTrends';
 import { TagRules } from './pages/analytics/TagRules';
+import { PhotoSearch } from './pages/users-photos/PhotoSearch';
 
 import { TopOwners } from './pages/users-photos/TopOwners';
 
@@ -23,6 +24,7 @@ function App() {
               <Route path="/photo-trends" element={<PhotoTrends />} />
               <Route path="/top-owners" element={<TopOwners />} />
               <Route path="/tag-rules" element={<TagRules />} />
+              <Route path="/photo-search" element={<PhotoSearch />} />
             </Routes>
           </div>
         </main>

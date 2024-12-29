@@ -35,7 +35,7 @@ const menuItems = [
     icon: Camera,
     subMenu: [
       { name: 'Top owners', icon: Trophy, path: '/top-owners' },
-      { name: 'Ricerca foto', icon: SearchCode, path: '/tag-based' },
+      { name: 'Ricerca foto', icon: SearchCode, path: '/photo-search' },
     ],
   },
 ];
