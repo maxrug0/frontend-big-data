@@ -46,6 +46,7 @@ export interface RuleMetrics {
 export interface PhotoSearched {
   url: string;
   username: string;
+  title: string;
   tags: string[];
   views: number;
 }

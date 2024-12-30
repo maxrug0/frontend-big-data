@@ -13,10 +13,11 @@ import styles from '../MapView.module.css';
 export function MapView() {
   const [coordinates, setCoordinates] = useState<Coordinate[]>([]);
   const [elevationScale, setElevationScale] = useState(0); // Elevation iniziale
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    // Carica i dati
     loadCoordinates().then(setCoordinates);
+    
 
     // Dopo un breve ritardo, cambia `elevationScale` a 1
     const interval = setInterval(() => {

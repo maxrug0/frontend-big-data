@@ -9,24 +9,13 @@ import { PhotoCard } from '@/components/users-photos/photo-search/PhotoCard';
 export function PhotoSearch(){
     const MOCK_PHOTOS: PhotoSearched[] = [
         {
-            url: 'https://images.unsplash.com/photo-1552832230-c0197dd311b5',
-            username: 'Marco Bianchi',
-            tags: ['rome', 'colosseum', 'sunset', 'architecture'],
-            views: 12500,
+          url: 'https://images.unsplash.com/photo-1552832230-c0197dd311b5',  
+          username: 'Marco Bianchi',
+          title: 'Sunset at the Colosseum',
+          tags: ['rome', 'colosseum', 'sunset', 'architecture'],
+          views: 12500,
         },
-        {
-            url: 'https://images.unsplash.com/photo-1531572753322-ad063cecc140',
-            username: 'Laura Romano',
-            tags: ['rome', 'vatican', 'art', 'architecture'],
-            views: 8300,
-        },
-        {
-            url: 'https://images.unsplash.com/photo-1555992828-ca4dbe41d294',
-            username: 'Giuseppe verdi',
-            tags: ['rome', 'history', 'night', 'ruins'],
-            views: 6700,
-        }
-    ];
+      ];
 
     const AVAILABLE_TAGS = [
         'rome', 'italy', 'colosseum', 'vatican', 'architecture',
@@ -34,34 +23,40 @@ export function PhotoSearch(){
         'sunset', 'night', 'street', 'food', 'people'
     ];
 
+    const AVAILABLE_YEARS = [2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014]
+
     const[isLoading, setIsLoading]= useState<boolean>(false);
     const[photos, setPhotos]= useState<PhotoSearched[]>([]);
-    const[availableTags, setAvailabelTags] = useState<string[]>([]);
+    const[availableTags, setAvailableTags] = useState<string[]>([]);
+    const[availableYears, setAvailableYears] = useState<number[]>([]);
+
     const searchPhotos = async (filters: PhotoSearchFilters) => {
         setIsLoading(true);
         try{
             await new Promise(resolve => setTimeout(resolve, 1500));
             setPhotos(MOCK_PHOTOS)
         } catch (error) {
-            console.error('Errore nel recupero dei dati mensili per anno:', error);
+            console.error('Errore nel recupero delle foto.', error);
         } finally{
             setIsLoading(false);
         }
     }
 
     useEffect(() => {
-        const fetchTagsData = async () => {
+        const fetchData = async () => {
             setIsLoading(true);
           try {
             //const tags = await getTags(); // Commento la chiamata API
-            setAvailabelTags(AVAILABLE_TAGS)
+            //const years = await getYears(); // Commento la chiamata API
+            setAvailableTags(AVAILABLE_TAGS)
+            setAvailableYears(AVAILABLE_YEARS)
           } catch (error) {
             console.error('Errore nel recupero dei dati annuali:', error);
           } finally {
             setIsLoading(false);
           }
         };
-        fetchTagsData();
+        fetchData();
       }, []);
     
 
@@ -72,7 +67,7 @@ export function PhotoSearch(){
             </div>
             <hr></hr>
             <div>
-                <SearchFilters availableTags={availableTags} onSearch={searchPhotos}/>
+                <SearchFilters availableTags={availableTags} availableYears={availableYears} onSearch={searchPhotos}/>
             </div>
 
             <div className={photo_search_styles.results}>

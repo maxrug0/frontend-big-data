@@ -1,5 +1,5 @@
 import axios from "axios";
-import type { ClusterData, AssociationRule } from "@/lib/types";
+import type { ClusterData, AssociationRule, CoordinateData } from "@/lib/types";
 
 const api = axios.create({
   //baseURL: "https://ec38-84-221-153-26.ngrok-free.app", 
@@ -9,6 +9,12 @@ const api = axios.create({
 
 
 // ########## MAPS ##########
+
+// Clusters
+export const getCoordinates = async (): Promise<CoordinateData[]> => {
+  const response = await api.get(`/photosByCoordinates`);
+  return response.data;
+};
 
 // Clusters
 export const getCentroidsKMeans = async (k: number): Promise<ClusterData[]> => {

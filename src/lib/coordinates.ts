@@ -1,23 +1,21 @@
-import { Coordinate } from './types';
+import { Coordinate, CoordinateData } from './types';
+import { getCoordinates } from '@/components/api/api'; // Importa la funzione dell'API
 
 export async function loadCoordinates(): Promise<Coordinate[]> {
   try {
-    const response = await fetch('/src/data/coordinates.txt');
-    const text = await response.text();
-    
-    // Parse the text content into an array
-    const rawData = JSON.parse(text) as [number, number, number][];
-    
-    // Transform the data and repeat points based on frequency
-    return rawData.flatMap(([lat, lon, frequency]) => 
-      // Create an array of repeated points
-      Array(frequency).fill({
-        position: [lon, lat], // DeckGL expects [longitude, latitude]
-        intensity: 1 // Each individual point has intensity 1
-      })
-    );
+    // Recupera i dati dall'API
+    const coordinateDataArray: CoordinateData[] = await getCoordinates();
+    console.log(coordinateDataArray);
+
+    // Trasforma CoordinateData in Coordinate
+    const transformedCoordinates: Coordinate[] = coordinateDataArray.map(data => ({
+      position: [data.longitude, data.latitude], // Converti in [longitude, latitude]
+      intensity: data.intensity // Mantieni l'intensità
+    }));
+
+    return transformedCoordinates;
   } catch (error) {
-    console.error('Error loading coordinates:', error);
+    console.error('Errore nel caricamento delle coordinate:', error);
     return [];
   }
 }

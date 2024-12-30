@@ -4,16 +4,20 @@ import { PhotoSearchFilters } from '@/lib/types';
 
 interface SearchFiltersProps{
     availableTags: string[];
+    availableYears: number[];
     onSearch: (filters: PhotoSearchFilters) => void;
 }
 
-export function SearchFilters({ availableTags, onSearch }: SearchFiltersProps ){
+export function SearchFilters({ availableTags, availableYears, onSearch }: SearchFiltersProps ){
     const[filters, setFilters] = useState<PhotoSearchFilters>({
-        startYear: 2001,
-        endYear: 2013,
+        startYear: Math.min(...availableYears),
+        endYear: Math.max(...availableYears),
         keyword: '',
         tags: []
     }); 
+
+    console.log(filters.startYear)
+    console.log(filters.endYear)
 
     const handleTagSelect = (tag: string) => {
         setFilters(prev => ({
@@ -88,10 +92,49 @@ export function SearchFilters({ availableTags, onSearch }: SearchFiltersProps ){
                     ))}
                 </div>
             </div>
+            <div className={styles.yearFilters}>
+                <div className={styles.yearSelect}>
+                    <select 
+                        id="startYear"
+                        value={filters.startYear}
+                        onChange={e => {
+                            const startYear = Number(e.target.value);
+                            setFilters(prev => ({
+                                ...prev,
+                                startYear,
+                                endYear: prev.endYear < startYear ? startYear : prev.endYear
+                            }));
+                        }}
+                        >
+                            {availableYears.map(year => (
+                                <option key={year} value={year}>{year}</option>
+                            ))}
+                        </select>
+                </div>
+                <div className={styles.yearSelect}>
+                    <select 
+                        id="endYear"
+                        value={filters.endYear}
+                        onChange={e => {
+                            setFilters(prev => ({
+                                ...prev,
+                                endYear: Number(e.target.value)
+                            }));
+                        }}
+                        >
+                            {availableYears
+                                .filter(year => year >= filters.startYear)
+                                .map(year => (
+                                    <option key={year} value={year}>{year}</option>
+                                ))
+                            }
+                        </select>
+                </div>
+            </div>
             <button
                 type="submit"
                 className={styles.searchButton}
-                disabled={filters.tags.length === 0}
+                disabled={filters.tags.length === 0 && filters.keyword.trim() === ''}
             >
                 Cerca
             </button>
