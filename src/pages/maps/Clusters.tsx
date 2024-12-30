@@ -5,6 +5,7 @@ import { getCentroidsKMeans } from '@/components/api/api';
 import styles from '../common.module.css';
 import map_styles from './map.module.css';
 import type { ClusterData } from '@/lib/types';
+import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
 
 export function Clusters() {
   const [k, setK] = useState<number>(5);
@@ -45,7 +46,12 @@ export function Clusters() {
         <ClusterControls k={k} onVisualizza={handleVisualizza} />
       </div>
       <div className={map_styles.mapWrapper}>
-        <ClusterMapView clusterData={clusterData} isLoading={isLoading} />
+      {isLoading ? (
+            <LoadingSpinner />
+          ) : (
+          <ClusterMapView clusterData={clusterData} isLoading={isLoading} />
+        )
+      }
       </div>
     </div>
   );

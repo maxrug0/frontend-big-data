@@ -12,7 +12,7 @@ export function PhotoSearch(){
           url: 'https://images.unsplash.com/photo-1552832230-c0197dd311b5',  
           username: 'Marco Bianchi',
           title: 'Sunset at the Colosseum',
-          tags: ['rome', 'colosseum', 'sunset', 'architecture'],
+          tags: ['rome', 'colosseum', 'sunset', 'architecture', ' ruins'],
           views: 12500,
         },
       ];
@@ -76,7 +76,7 @@ export function PhotoSearch(){
                             <LoadingSpinner />
                         </div>
                     ) : photos.length > 0 ? (
-                        <div className={photo_search_styles.photoGrid}>
+                        <div className={photo_search_styles.grid}>
                             {photos.map(photo => (
                                 <div className={photo_search_styles.cardWrapper}>
                                     <PhotoCard photo={photo}/>

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './search-filters.module.css';
 import { PhotoSearchFilters } from '@/lib/types';
 
@@ -10,11 +10,21 @@ interface SearchFiltersProps{
 
 export function SearchFilters({ availableTags, availableYears, onSearch }: SearchFiltersProps ){
     const[filters, setFilters] = useState<PhotoSearchFilters>({
-        startYear: Math.min(...availableYears),
-        endYear: Math.max(...availableYears),
+        startYear: 2002,
+        endYear: 2013,
         keyword: '',
         tags: []
     }); 
+
+    useEffect(() => {
+        if (availableYears.length > 0) {
+            setFilters(prev => ({
+                ...prev,
+                startYear: Math.min(...availableYears),
+                endYear: Math.max(...availableYears),
+            }));
+        }
+    }, [availableYears]);
 
     console.log(filters.startYear)
     console.log(filters.endYear)
@@ -34,7 +44,7 @@ export function SearchFilters({ availableTags, availableYears, onSearch }: Searc
     };
 
     const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault; // impedire il comportamento predefinito (inviare i dati del modulo al server e ricaricare la pagina)
+        e.preventDefault(); // impedire il comportamento predefinito (inviare i dati del modulo al server e ricaricare la pagina)
         onSearch(filters);
     };
 
