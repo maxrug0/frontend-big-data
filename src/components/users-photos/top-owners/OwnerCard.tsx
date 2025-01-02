@@ -1,44 +1,34 @@
-import { Eye } from 'lucide-react'
-import type { Owner } from '../../../lib/types'
-import { formatNumber } from '../../maps/clusters/utils'
+import type { OwnerSearched } from '../../../lib/types'
+import { CameraStats } from '@/components/charts/RadarChart';
 import styles from './owner-card.module.css'
+import { OwnerStats } from './OwnerStats';
+import { PhotoDisplay } from './PhotoDisplay';
 
 interface OwnerProps{
-    owner: Owner
+    owner: OwnerSearched
 }
 
 export function OnwerCard({ owner }: OwnerProps){
     return(
         <div className={styles.card}>
-            <div className={styles.imageContainer}>
-                <img
-                    src={owner.bestPhoto.url}
-                    className={styles.image}
-                />
-                <div className={styles.overlay}>
-                    <div className={styles.stats}>
-                        <div className={styles.stat}>
-                            <Eye className={styles.icon} />
-                            <span>{formatNumber(owner.bestPhoto.views)} visualizzazioni</span>
-                        </div>
-                    </div>
-                </div>
+            <div className={styles.rank}>
+                #{owner.rank}
             </div>
-            <div className={styles.info}>
-                <div className={styles.profile}>
-                    <img 
+            <div className={styles.topRow}>
+                <div className={styles.userInfo}>
+                    <img
                         src={owner.avatarUrl}
                         alt={owner.name}
                         className={styles.avatar}
-                    /> 
-                    <div className={styles.details}>
-                        <h3 className={styles.name}>{owner.name}</h3>
-                        <p className={styles.totalPhotos}>
-                            {formatNumber(owner.totalPhotos)} foto
-                        </p>
-                    </div>
-                    <div className={styles.rank}>#{owner.rank}</div>
+                    />
+                    <OwnerStats owner={owner} />
                 </div>
+                <div className={styles.chartSection}>
+                    <CameraStats cameraStats={owner.cameraInfo}/>
+                </div>
+            </div>
+            <div className={styles.bottomoRow}>
+                <PhotoDisplay photo={owner.bestPhoto}/>
             </div>
         </div>
     );

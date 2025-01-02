@@ -40,6 +40,9 @@ export function LineChartComponent({ lineColor = 'rgb(75, 192, 192)', labels, da
         display: true,
         text: title,
         color: 'white',
+        font: {
+          size: 15, // Imposta la dimensione del titolo
+        },
       },
     },
     scales: {

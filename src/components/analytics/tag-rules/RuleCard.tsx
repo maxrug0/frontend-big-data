@@ -36,7 +36,7 @@ export function RuleCard({ rule }: RuleCardProps){
                 </div>
                 <div className={styles.metric}>
                     <span className={styles.metricLabel}>Lift</span>
-                    <span className={styles.metricValue}>{formatPercent(rule.lift)}</span>
+                    <span className={styles.metricValue}>{rule.lift.toFixed(2)}</span>
                 </div>
             </div>
         </div>

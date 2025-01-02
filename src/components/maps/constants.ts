@@ -10,7 +10,14 @@ export const INITIAL_VIEW_STATE = {
 export const INITIAL_VIEW_STATE_CLUSTER = {
   longitude: 12.4964,
   latitude: 41.9028,
-  zoom: 12.7, // Reduced zoom level to show more area
+  zoom: 10, // Reduced zoom level to show more area
+} as const;
+
+export const INITIAL_VIEW_STATE_DISTANCES = {
+  longitude: 12.4964,
+  latitude: 41.9028,
+  pitch: 45,
+  zoom: 12,
 } as const;
 
 export const MAP_STYLE = 'https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json';
@@ -24,3 +31,4 @@ export const COLOR_RANGE = [
   [255, 128, 0],    // Orange
   [255, 0, 0]       // Red
 ] as const;
+

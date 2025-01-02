@@ -1,33 +1,32 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import styles from './search-filters.module.css';
 import { PhotoSearchFilters } from '@/lib/types';
 
 interface SearchFiltersProps{
     availableTags: string[];
-    availableYears: number[];
     onSearch: (filters: PhotoSearchFilters) => void;
 }
 
-export function SearchFilters({ availableTags, availableYears, onSearch }: SearchFiltersProps ){
-    const[filters, setFilters] = useState<PhotoSearchFilters>({
-        startYear: 2002,
-        endYear: 2013,
+export function SearchFilters({ availableTags, onSearch }: SearchFiltersProps ){
+    const MIN_DATE = '2000-01-01';
+    const MAX_DATE = '2017-12-31';
+
+    const [filters, setFilters] = useState<PhotoSearchFilters>({
+        startDate: MIN_DATE, // Formato: YYYY-MM-DD
+        endDate: MAX_DATE,
         keyword: '',
-        tags: []
-    }); 
+        tags: [],
+    });
 
-    useEffect(() => {
-        if (availableYears.length > 0) {
-            setFilters(prev => ({
-                ...prev,
-                startYear: Math.min(...availableYears),
-                endYear: Math.max(...availableYears),
-            }));
-        }
-    }, [availableYears]);
+    
+      const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        onSearch(filters);
+      };
 
-    console.log(filters.startYear)
-    console.log(filters.endYear)
+    const availableTagsFiltered = availableTags.filter(
+        tag => !filters.tags.includes(tag)
+    );
 
     const handleTagSelect = (tag: string) => {
         setFilters(prev => ({
@@ -42,15 +41,6 @@ export function SearchFilters({ availableTags, availableYears, onSearch }: Searc
             tags: prev.tags.filter(tag => tag != tagToRemove)
         }));
     };
-
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault(); // impedire il comportamento predefinito (inviare i dati del modulo al server e ricaricare la pagina)
-        onSearch(filters);
-    };
-
-    const availableTagsFiltered = availableTags.filter(
-        tag => !filters.tags.includes(tag)
-    );
     
     return (
         <form onSubmit={handleSubmit} className={styles.form}>
@@ -102,43 +92,40 @@ export function SearchFilters({ availableTags, availableYears, onSearch }: Searc
                     ))}
                 </div>
             </div>
-            <div className={styles.yearFilters}>
-                <div className={styles.yearSelect}>
-                    <select 
-                        id="startYear"
-                        value={filters.startYear}
-                        onChange={e => {
-                            const startYear = Number(e.target.value);
+            {/* Date Pickers */}
+            <div className={styles.dateFilters}>
+                <div className={styles.datePicker}>
+                    <label htmlFor="startDate">Data Inizio</label>
+                    <input
+                        type="date"
+                        id="startDate"
+                        value={filters.startDate}
+                        min={MIN_DATE}
+                        max={MAX_DATE}
+                        onChange={e =>
                             setFilters(prev => ({
                                 ...prev,
-                                startYear,
-                                endYear: prev.endYear < startYear ? startYear : prev.endYear
-                            }));
-                        }}
-                        >
-                            {availableYears.map(year => (
-                                <option key={year} value={year}>{year}</option>
-                            ))}
-                        </select>
+                                startDate: e.target.value,
+                                endDate: prev.endDate && prev.endDate < e.target.value ? '' : prev.endDate, // Resetta dataFine se è precedente
+                            }))
+                        }
+                    />
                 </div>
-                <div className={styles.yearSelect}>
-                    <select 
-                        id="endYear"
-                        value={filters.endYear}
-                        onChange={e => {
+                <div className={styles.datePicker}>
+                    <label htmlFor="endDate">Data Fine</label>
+                    <input
+                        type="date"
+                        id="endDate"
+                        value={filters.endDate}
+                        min={filters.startDate || MIN_DATE} // Imposta il minimo a dataInizio o il limite inferiore
+                        max={MAX_DATE} // Limita il massimo a MAX_DATE
+                        onChange={e =>
                             setFilters(prev => ({
                                 ...prev,
-                                endYear: Number(e.target.value)
-                            }));
-                        }}
-                        >
-                            {availableYears
-                                .filter(year => year >= filters.startYear)
-                                .map(year => (
-                                    <option key={year} value={year}>{year}</option>
-                                ))
-                            }
-                        </select>
+                                endDate: e.target.value,
+                            }))
+                        }
+                    />
                 </div>
             </div>
             <button

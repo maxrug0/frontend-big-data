@@ -1,90 +1,80 @@
 import { useState, useEffect } from 'react';
 import { RuleCard } from '@/components/analytics/tag-rules/RuleCard';
+import { RuleFilters } from '@/components/analytics/tag-rules/RuleFilters'; // Importa RuleFilters
 import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
 import styles from '../common.module.css';
 import analytics_styles from './analytics.module.css';
-import type { AssociationRule } from '@/lib/types';
-import { getAssociationRules } from '@/components/api/api';
+import type { AssociationRule, RuleSearchFilters, TagsResponse } from '@/lib/types';
+import { topTags, getAssociationRules } from '@/components/api/api';
+import { WordCloudComponent } from '@/components/charts/WordCloud';
 
-export function TagRules(){
-    const MOCK_DELAY = 1500;
-
-    const MOCK_RULES: AssociationRule[] = [
-    {
-        antecedent: ["italy"],
-        confidence: 0.8865615721389919,
-        consequent: ["rome"],
-        lift: 1.577599814338708,
-        support: 0.40985051979741227
-    },
-    {
-        antecedent: ["roma", "italy"],
-        confidence: 0.8912340792844746,
-        consequent: ["rome"],
-        lift: 1.5859143484183038,
-        support: 0.23412775473329853
-    },
-    {
-        antecedent: ["roma"],
-        confidence: 0.6693039986438092,
-        consequent: ["rome"],
-        lift: 1.190998907666493,
-        support: 0.30477533341454854
-    },
-    {
-        antecedent: ["rome"],
-        confidence: 0.729312124795831,
-        consequent: ["italy"],
-        lift: 1.577599814338708,
-        support: 0.40985051979741227
-    },
-    {
-        antecedent: ["roma", "rome"],
-        confidence: 0.7681978462963183,
-        consequent: ["italy"],
-        lift: 1.6617148385291656,
-        support: 0.23412775473329853
-    }
-    ];
-
+export function TagRules() {
+    const [availableTags, setAvailableTags] = useState<string[]>([]);
     const [rules, setRules] = useState<AssociationRule[]>([]);
+    const [tags, setTags] = useState<TagsResponse[]>([]);
     const [isLoading, setIsLoading] = useState(true);
-
-    /*
-    useEffect(() => {
-        const fetchTagData = async () => {
-          try {
-            const data = await getAssociationRules();
-            setRules(rules); 
-          } catch (error) {
-            console.error('Errore nel recupero dei dati', error);
-          } finally {
-            setIsLoading(false);
-          }
-        };
-        fetchTagData(); 
-      }, []);
-    */
+    const [isSearching, setIsSearching] = useState(false);
 
     useEffect(() => {
-        const loadRules = async () => {
-        setIsLoading(true);
-        await new Promise(resolve => setTimeout(resolve, MOCK_DELAY));
-        setRules(MOCK_RULES);
-        setIsLoading(false);
+        const fetchData = async () => {
+            setIsLoading(true);
+            try {
+                const tagsData: TagsResponse[] = await topTags(500); 
+                setTags(tagsData);
+                const mappedTags: string[] = tagsData.map(tag => tag.tagValue);
+                setAvailableTags(mappedTags);
+            } catch (error) {
+                console.error('Errore nel recupero dei tags:', error);
+            } finally {
+                setIsLoading(false);
+            }
         };
-
-        loadRules();
+        fetchData();
     }, []);
 
+    const handleSearch = async (filters: RuleSearchFilters) => {
+        setIsSearching(true);
+        try {
+            const associationRules: AssociationRule[] = await getAssociationRules(
+                filters.minSupport, 
+                filters.minConfidence, 
+                filters.tags
+            ); 
+            setRules(associationRules);
+        } catch (error) {
+            console.error('Errore nel recupero delle regole:', error);
+        } finally {
+            setIsSearching(false);
+        }
+    };
 
-    return(
+    return (
         <div className={styles.container}>
             <div className={styles.header}>
-                <h1 className={styles.title}>Regole di associazione</h1>
+                <h2 className={styles.title}>Analisi dei tag</h2>
             </div>
-            <hr></hr>
+            <hr />
+
+            <div className={analytics_styles.explanation}>
+                <h1 className={styles.subtitle}>I tag più usati</h1>
+                <p>
+                    I dati sono visualizzati sotto forma di barplot, che rappresenta il numero di post in cui ogni tag appare.<br />
+                    Questo permette di comprendere meglio la popolarità dei diversi tag.
+                </p>
+            </div>
+
             <div>
+                {isLoading ? (
+                    <LoadingSpinner />
+                ) : (
+                    <WordCloudComponent tags={tags}/>
+                )}
+            </div>    
+
+            <hr />
+
+            <div>
+                <h1 className={styles.subtitle}>Regole di associazione</h1>
                 <div className={analytics_styles.explanation}>
                     <p>
                         Queste regole mostrano le relazioni tra i tag presenti nelle foto. Ad esempio, quando determinati tag compaiono insieme,
@@ -102,18 +92,29 @@ export function TagRules(){
                         </li>
                     </ul>
                 </div>
-                
-                {isLoading ? (
-                    <div className={analytics_styles.loadingContainer}>
-                        <LoadingSpinner />
-                    </div>
+
+                <RuleFilters
+                    availableTags={availableTags}
+                    onSearch={handleSearch}
+                />
+                <div className={analytics_styles.results}>
+                    {isSearching ? (
+                        <div className={analytics_styles.loadingContainer}>
+                            <LoadingSpinner />
+                        </div>
+                    ) : rules.length > 0 ? (
+                        <div className={analytics_styles.grid}>
+                            {rules.map((rule, index) => (
+                                <RuleCard key={index} rule={rule} />
+                            ))}
+                        </div>
                     ) : (
-                    <div className={analytics_styles.grid}>
-                        {rules.map((rule, index) => (
-                            <RuleCard key={index} rule={rule} />
-                        ))}
-                    </div>
-                )}
+                        <div className={analytics_styles.noResults}>
+                            Non è stata trovata nessuna regola che soddifsi i filtri!
+                        </div>
+                    )
+                    }
+                </div>
             </div>
         </div>
     );

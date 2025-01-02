@@ -1,5 +1,5 @@
 import { PhotoSearched } from "@/lib/types";
-import { Eye } from "lucide-react";
+import { Eye, Camera, Calendar } from "lucide-react";
 import styles from './photo-card.module.css'
 
 interface PhotoCardProps{
@@ -7,6 +7,7 @@ interface PhotoCardProps{
 }
 
 export function PhotoCard({ photo }: PhotoCardProps){
+
     return(
         <div className={styles.card}>
             <div className={styles.imageContainer}>
@@ -16,6 +17,14 @@ export function PhotoCard({ photo }: PhotoCardProps){
                         <div className={styles.stat}>
                             <Eye className={styles.icon} />
                             <span>{photo.views.toLocaleString()}</span>
+                        </div>
+                        <div className={styles.stat}>
+                            <Camera className={styles.icon} />
+                            <span>{photo.dateTaken}</span>
+                        </div>
+                        <div className={styles.stat}>
+                            <Calendar className={styles.icon} />
+                            <span>{photo.datePosted}</span>
                         </div>
                     </div>
                 </div>

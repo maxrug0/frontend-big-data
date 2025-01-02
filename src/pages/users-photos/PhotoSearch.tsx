@@ -3,38 +3,20 @@ import styles from '../common.module.css';
 import { SearchFilters } from '@/components/users-photos/photo-search/SearchFilters';
 import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
 import { useEffect, useState } from 'react';
-import { PhotoSearched, PhotoSearchFilters } from '@/lib/types';
+import { PhotoSearched, PhotoSearchFilters, TagsResponse } from '@/lib/types';
 import { PhotoCard } from '@/components/users-photos/photo-search/PhotoCard';
+import { getPhotos, topTags } from '@/components/api/api';
 
 export function PhotoSearch(){
-    const MOCK_PHOTOS: PhotoSearched[] = [
-        {
-          url: 'https://images.unsplash.com/photo-1552832230-c0197dd311b5',  
-          username: 'Marco Bianchi',
-          title: 'Sunset at the Colosseum',
-          tags: ['rome', 'colosseum', 'sunset', 'architecture', ' ruins'],
-          views: 12500,
-        },
-      ];
-
-    const AVAILABLE_TAGS = [
-        'rome', 'italy', 'colosseum', 'vatican', 'architecture',
-        'history', 'ancient', 'ruins', 'art', 'sculpture',
-        'sunset', 'night', 'street', 'food', 'people'
-    ];
-
-    const AVAILABLE_YEARS = [2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014]
-
     const[isLoading, setIsLoading]= useState<boolean>(false);
     const[photos, setPhotos]= useState<PhotoSearched[]>([]);
     const[availableTags, setAvailableTags] = useState<string[]>([]);
-    const[availableYears, setAvailableYears] = useState<number[]>([]);
 
     const searchPhotos = async (filters: PhotoSearchFilters) => {
         setIsLoading(true);
         try{
-            await new Promise(resolve => setTimeout(resolve, 1500));
-            setPhotos(MOCK_PHOTOS)
+            const photosData: PhotoSearched[] = await getPhotos(filters.keyword, filters.startDate, filters.endDate, filters.tags);
+            setPhotos(photosData)
         } catch (error) {
             console.error('Errore nel recupero delle foto.', error);
         } finally{
@@ -46,12 +28,11 @@ export function PhotoSearch(){
         const fetchData = async () => {
             setIsLoading(true);
           try {
-            //const tags = await getTags(); // Commento la chiamata API
-            //const years = await getYears(); // Commento la chiamata API
-            setAvailableTags(AVAILABLE_TAGS)
-            setAvailableYears(AVAILABLE_YEARS)
+            const tags: TagsResponse[] = await topTags(50); // Commento la chiamata API
+            const mappedTags: string[] = tags.map(tag => tag.tagValue);
+            setAvailableTags(mappedTags)
           } catch (error) {
-            console.error('Errore nel recupero dei dati annuali:', error);
+            console.error('Errore nel recupero dei tags:', error);
           } finally {
             setIsLoading(false);
           }
@@ -67,7 +48,7 @@ export function PhotoSearch(){
             </div>
             <hr></hr>
             <div>
-                <SearchFilters availableTags={availableTags} availableYears={availableYears} onSearch={searchPhotos}/>
+                <SearchFilters availableTags={availableTags} onSearch={searchPhotos}/>
             </div>
 
             <div className={photo_search_styles.results}>

@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Sidebar } from './components/layout/Sidebar';
 import styles from './App.module.css';
 
-import { SpatialPosts } from './pages/maps/SpatialPosts';
+import { Home } from './pages/maps/Home';
 import { Clusters } from './pages/maps/Clusters';
 
 import { PhotoTrends } from './pages/analytics/PhotoTrends';
@@ -19,7 +19,7 @@ function App() {
         <main className={styles.main}>
           <div className={styles.content}>
             <Routes>
-              <Route path="/" element={<SpatialPosts />} />
+              <Route path="/" element={<Home />} />
               <Route path="/clusters" element={<Clusters />} />
               <Route path="/photo-trends" element={<PhotoTrends />} />
               <Route path="/top-owners" element={<TopOwners />} />

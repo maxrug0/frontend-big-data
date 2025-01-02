@@ -47,7 +47,8 @@
   
   .stats {
     display: flex;
-    gap: 1rem;
+    flex-direction: column;
+    gap: 0.7rem;
     color: white;
   }
   

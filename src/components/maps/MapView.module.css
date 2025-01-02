@@ -3,3 +3,46 @@
   height: 100%;
   position: relative;
 }
+
+.container {
+  position: relative;
+}
+
+.sidebar {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  width: 260px;
+  padding: 20px;
+  background-color: rgba(20, 20, 20, 0.95); /* Deep dark background */
+  color: white; /* Text color for better contrast */
+  font-family: 'Roboto', sans-serif; /* Material UI font */
+  border-radius: 10px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Deeper shadow for more modern look */
+  z-index: 1000;
+}
+
+.sidebar h3 {
+  margin: 0 0 20px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #d4d4d4; /* Neutral gray for headers */
+}
+
+.sidebar input {
+  margin-right: 12px;
+  accent-color: #606060; /* Neutral dark accent */
+}
+
+.sidebar label {
+  font-size: 15px;
+  font-weight: 400;
+  margin-bottom: 15px; /* Better spacing between items */
+  color: #e0e0e0; /* Lighter gray for labels */
+}
+
+.sidebar div {
+  margin-bottom: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Subtle divider */
+}
