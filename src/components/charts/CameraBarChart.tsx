@@ -7,24 +7,26 @@ import {
   Title,
   Tooltip,
 } from 'chart.js';
-import type { HourCountData } from '@/lib/types'; 
+import { SearchedCamera } from '@/lib/types';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip);
 
-interface HourCountDataProps{
-    hourData: HourCountData[];
-    barColor?: string;
-    title: string;
+interface CameraDataProps{
+    cameras: SearchedCamera[];
 }
 
-export function BarChart({ hourData, barColor = 'rgba(96, 165, 250, 0.8)', title }: HourCountDataProps) {
+export function CameraBarChart({ cameras }: CameraDataProps) {
+    const barThickness = 15; // Larghezza (o spessore) di ogni barra
+    const chartHeight = cameras.length * barThickness + 700; // Altezza totale del grafico, con un po' di padding
+
     const data = {
-      labels: hourData.map(couple => couple[0]),
+      labels: cameras.map(couple => couple[0]),
       datasets: [{
-        data: hourData.map(couple => couple[1]),
-        backgroundColor: barColor, // Usa il colore passato come props
-        borderColor: barColor.replace('0.8', '1'), // Calcola il colore del bordo con opacità 1
-         borderWidth: 1,
+        data: cameras.map(couple => couple[1]),
+        backgroundColor: 'rgba(250, 96, 96, 0.8)', 
+        borderColor: 'rgba(250, 96, 96, 1)', 
+        borderWidth: 1,
+        barThickness: barThickness,
       }],
     };
   
@@ -37,8 +39,7 @@ export function BarChart({ hourData, barColor = 'rgba(96, 165, 250, 0.8)', title
           display: false,
         },
         title: {
-            display: true, 
-            text: title,
+            display: false, 
             color: 'white',
             font: {
               size: 16,
@@ -46,7 +47,7 @@ export function BarChart({ hourData, barColor = 'rgba(96, 165, 250, 0.8)', title
           },
         tooltip: {
           callbacks: {
-            label: (context: any) => `${context.raw.toLocaleString()} photos`,
+            label: (context: any) => `${context.raw.toLocaleString()} foto`,
           },
         },
       },
@@ -73,7 +74,7 @@ export function BarChart({ hourData, barColor = 'rgba(96, 165, 250, 0.8)', title
     };
   
     return (
-      <div style={{ height: '500px', width: '100%' }}>
+      <div style={{ height: `${chartHeight}px`, width: '100%' }}>
         <Bar data={data} options={options} />
       </div>
     );

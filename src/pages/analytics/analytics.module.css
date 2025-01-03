@@ -69,14 +69,21 @@ margin-right: 8px;
 .chartContainer {
   background-color: rgba(39, 39, 42, 0.8);
   border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   border-radius: 12px;
   padding: 16px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
 }
+
+.gaugeContainer {
+  width: 500px !important;
+  height: 500px !important;
+  justify-self: center;
+}
+
 
 .explanation {
   margin-bottom: 2rem;

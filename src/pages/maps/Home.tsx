@@ -67,7 +67,7 @@ export function Home() {
               <RingProgress
                 value={80}
                 label="Dataset Filtrato"
-                count={1_003_890}
+                count={1_081_259}
                 color="#42A5F5"
               />
             </div>

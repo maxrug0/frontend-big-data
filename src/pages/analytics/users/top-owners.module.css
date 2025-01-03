@@ -29,8 +29,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
+  justify-self: center;
+  width: 60%;
   height: 400px;
+  margin-top: 30px;
 }
 
 .chartContainer {

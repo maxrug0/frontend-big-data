@@ -21,9 +21,27 @@ export type Centroids = {
   longitude: number;
 };
 
+
+export type CentroidDistance = {
+  label: number;
+  latitude: number;
+  longitude: number;
+};
+export type DistancesData = {
+  distanza: number;
+  latitudeM: number;
+  longitudeM: number;
+  monumento: string;
+};
+export type Distances = {
+  centroid: CentroidDistance;
+  distances: DistancesData[];
+};
+
 export interface KMeansResponse {
   labels: ClusterData[]; 
   centroids: CentroidsData[]; 
+  distanze: Distances[];
 }
 
 //######################################
@@ -42,6 +60,23 @@ export interface HourData {
   posted: HourCountData[];
   taken: HourCountData[];
 }
+
+//######################################
+
+// Analisi delle camere
+
+export interface TopCameraPerYear{
+  count: number;
+  make: string;
+  model: string;
+  year: number;
+}
+
+export interface CameraSearch {
+  brand: string;
+}
+
+export type SearchedCamera = [string, number];
 
 //######################################
 
@@ -72,32 +107,33 @@ export interface RuleSearchFilters {
   tags: string[];
 }
 
+export interface AvgData{
+  averageTimeToPostMinutes: number;
+} 
+
 //######################################
 
 // Analisi degli utenti
 
 export interface Photo {
-  title: string;
   url: string;
   views: number;
   comments: number;
 }
 
-export interface CameraInfo {
-  brand: string;
-  model: string;
-  usage: number;
-}
-
+export type CameraInfo = [string, string, number];
 export interface OwnerSearched {
+  avatar_url: string;
+  best_photo_url: string;
+  camera_details: CameraInfo[];
+  most_viewed_photo_comments: number;
+  most_viewed_photo_views: number;
   rank: number;
-  name: string;
-  avatarUrl: string;
-  totalPhotos: number;
-  totalViews: number;
-  totalComments: number;
-  bestPhoto: Photo;
-  cameraInfo: CameraInfo[];
+  total_comments: number;
+  total_photos: number;
+  total_views: number;
+  user_id: string;
+  username: string;
 }
 
 export interface PopularOwner {
@@ -118,6 +154,11 @@ export interface FirstPost{
   year: number;
   months: MonthDataCount[]
 };
+
+export interface ProVsNonProResponse{
+  pro: boolean;
+  user_count: number;
+}
 
 //######################################
 

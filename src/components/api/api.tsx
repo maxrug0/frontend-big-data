@@ -1,5 +1,5 @@
 import axios from "axios";
-import type { TagsResponse, AssociationRule, CoordinateData, KMeansResponse, PhotoSearched, PhotoCount, HourData, OwnerSearched, PopularOwner, FirstPost } from "@/lib/types";
+import type { TagsResponse, AssociationRule, CoordinateData, KMeansResponse, PhotoSearched, PhotoCount, HourData, OwnerSearched, PopularOwner, FirstPost, AvgData, ProVsNonProResponse, TopCameraPerYear, SearchedCamera } from "@/lib/types";
 
 const api = axios.create({
   baseURL: "https://bqgq98pb-8080.euw.devtunnels.ms", 
@@ -10,7 +10,7 @@ const api = axios.create({
 
 // ########## MAPS ##########
 
-// Clusters
+// Home
 export const getCoordinates = async (): Promise<CoordinateData[]> => {
   const response = await api.get(`/photosByCoordinates`);
   return response.data;
@@ -18,11 +18,22 @@ export const getCoordinates = async (): Promise<CoordinateData[]> => {
 
 // Clusters
 export const KMeans = async (k: number): Promise<KMeansResponse> => {
-  const response = await api.get(`/runKMeans`, {params: { k }});
+  const response = await api.get(`/runKMeans2`, {params: { k }});
   return response.data;
 };
 
 // ########## ANALYTICS ##########
+
+// CameraAnalytics
+export const getTopCamerasPerYear = async (): Promise<TopCameraPerYear[]> =>{
+  const response = await api.get(`/topCamerasPerYear`);
+  return response.data;
+}
+
+export const getCamerasInfo = async (brand: string): Promise<SearchedCamera[]> => {
+  const response = await api.get(`/searchBrandsInfo`, { params: { brand} });
+  return response.data;
+};
 
 // PhotoTrends
 export const getPhotoTakenCount = async (): Promise<PhotoCount> => {
@@ -45,9 +56,14 @@ export const getPhotoCountHour = async (): Promise<HourData> => {
   return response.data;
 };
 
-// TagRules
-export const topTags = async (page_size: number): Promise<TagsResponse[]> => {
-  const response = await api.get(`/topTags`, { params: { page_size } });
+export const getAvgTimeToPost = async (): Promise<AvgData[]> => {
+  const response = await api.get(`/averageTimeToPost`)
+  return response.data;
+}
+
+// Tag Analytitcs
+export const topTags = async (limit: number): Promise<TagsResponse[]> => {
+  const response = await api.get(`/topTags`, { params: { limit } });
   return response.data;
 };
 
@@ -61,11 +77,9 @@ export const getAssociationRules = async(min_support: number, min_confidence: nu
   }
 };
 
-// ########## USERS-PHOTOS ##########
-
-// TopOwners
-export const getOwners = async (): Promise<OwnerSearched[]> => {
-  const response = await api.get(`/top50Owners`);
+// Users Analytitcs
+export const getOwners = async (username: string): Promise<OwnerSearched[]> => {
+  const response = await api.get(`/searchOwnerCam`, { params: { username} });
   return response.data;
 };
 
@@ -79,10 +93,17 @@ export const getFirstPostPerYear = async (): Promise<FirstPost[]> => {
   return response.data;
 };
 
+export const getProVsNonPro = async (): Promise<ProVsNonProResponse[]> =>{
+  const response = await api.get(`/proUsersDistribution`);
+  return response.data;
+}
+
+// ########## PHOTO-SEARCH ##########
+
 // PhotoSearch
 export const getPhotos = async (keyword: string, dataInizio: string, dataFine: string, tagList: string[] = []): Promise<PhotoSearched[]> => {
   try {
-    const response = await api.post(`/search_photos`, {keyword, dataInizio, dataFine, tag_list: tagList});
+    const response = await api.post(`/searchPhotos`, {keyword, dataInizio, dataFine, tag_list: tagList});
     return response.data;
   } catch (error) {
     console.error("Error searching photos:", error);

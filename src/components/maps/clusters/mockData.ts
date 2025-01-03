@@ -31,9 +31,19 @@ export interface Monument {
       { monumento: "Castel Sant'Angelo", latitudine: 41.9031, longitudine: 12.4663 },
       { monumento: "Piazza di Spagna", latitudine: 41.9057, longitudine: 12.4823 },
       { monumento: "Galleria Borghese", latitudine: 41.9142, longitudine: 12.4923 },
+      { monumento: "Altare della Patria", latitudine: 41.8955, longitudine: 12.4823 },
+      { monumento: "Circo Massimo", latitudine: 41.8855, longitudine: 12.4853 },
+      { monumento: "Terme di Caracalla", latitudine: 41.8786, longitudine: 12.4922 },
+      { monumento: "Piazza del Popolo", latitudine: 41.9109, longitudine: 12.4763 },
+      { monumento: "Villa Borghese", latitudine: 41.9122, longitudine: 12.4924 },
+      { monumento: "Campo de' Fiori", latitudine: 41.8959, longitudine: 12.4722 },
+      { monumento: "Basilica di Santa Maria Maggiore", latitudine: 41.8978, longitudine: 12.4989 },
+      { monumento: "Piazza Venezia", latitudine: 41.8963, longitudine: 12.4827 },
+      { monumento: "Via del Corso", latitudine: 41.9031, longitudine: 12.4797 },
     ];
+    
   
-    const centroids: Centroide[] = Array.from({ length: 5}, (_, i) => ({
+    const centroids: Centroide[] = Array.from({ length: 6}, (_, i) => ({
       latitudine: Math.random() * (41.92 - 41.85) + 41.85,
       longitudine: Math.random() * (12.50 - 12.45) + 12.45,
       label: i

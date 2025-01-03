@@ -1,13 +1,14 @@
 import { LineChartComponent } from '@/components/charts/LineChart';
-import styles from '../common.module.css';
-import analytics_styles from './analytics.module.css';
+import styles from '@/pages/common.module.css';
+import analytics_styles from '../analytics.module.css';
 import { useEffect, useState } from 'react';
 import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
-import { getPhotoTakenCount, getPhotoPostedCount, getPhotoPerMonthByYear, getPhotoCountHour } from '@/components/api/api';
-import { HourCountData, MonthData, YearData } from '@/lib/types';
+import { getPhotoTakenCount, getPhotoPostedCount, getPhotoPerMonthByYear, getPhotoCountHour, getAvgTimeToPost } from '@/components/api/api';
+import { AvgData, HourCountData, MonthData, YearData } from '@/lib/types';
 import { BarChart } from '@/components/charts/BarChart';
+import { GaugeChart } from '@/components/charts/GaugeChart';
 
-export function PhotoTrends() {
+export function PhotoAnalytics() {
   /*Data Taken*/
   const [yearTakenLabels, setYearTakenLabels] = useState<number[]>([]);
   const [yearTakenData, setYearTakenData] = useState<number[]>([]);
@@ -43,6 +44,10 @@ export function PhotoTrends() {
     };
   }[]>([]);
   const [isMonthlyDataLoading, setIsMonthlyDataLoading] = useState<boolean>(true);
+
+  /*AvgTimeToPost*/
+  const [avg, setAvg] = useState<AvgData>({averageTimeToPostMinutes: 294975.495650755});
+  const [isAvgLoading, setIsAvgLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchTakenData = async () => {
@@ -92,9 +97,22 @@ export function PhotoTrends() {
       }
     }
 
+    const fetchAvgData = async () =>{
+      setIsAvgLoading(true);
+      try {
+        const data = await getAvgTimeToPost();
+        setAvg(data[0]);
+      } catch (error) {
+        console.log('Errore nel recuperare il tempo medio: ', error);
+      } finally {
+        setIsAvgLoading(false);
+      }
+    }
+
     fetchTakenData();
     fetchPostedData();
     fetchHourData();
+    fetchAvgData();
   }, []);
 
   useEffect(() => {
@@ -254,25 +272,25 @@ export function PhotoTrends() {
               </select>
             </div>
           </div>
-        </div>
-        <div className={styles.content}>
-          {isMonthlyDataLoading ? (
-            <div className={analytics_styles.loadingContainer}>
-              <LoadingSpinner />
-            </div>
-          ) : (
-            <div className={analytics_styles.monthsGrid}>
-              {monthlyData.map((item) => (
-                <div key={item.month} className={analytics_styles.monthCard}>
-                  <h3>{item.month}</h3>
-                  <p style={{ fontSize: '24px', fontWeight: 'bold' }}>{item.count}</p>
-                  <p style={{ color: item.trend.direction === 'up' ? 'green' : 'red' }}>
-                    {item.trend.value} {item.trend.direction === 'up' ? '↑' : '↓'}
-                  </p>
-                </div>
-              ))}
-            </div>
-          )}
+          <div className={styles.content}>
+            {isMonthlyDataLoading ? (
+              <div className={analytics_styles.loadingContainer}>
+                <LoadingSpinner />
+              </div>
+            ) : (
+              <div className={analytics_styles.monthsGrid}>
+                {monthlyData.map((item) => (
+                  <div key={item.month} className={analytics_styles.monthCard}>
+                    <h3>{item.month}</h3>
+                    <p style={{ fontSize: '24px', fontWeight: 'bold' }}>{item.count}</p>
+                    <p style={{ color: item.trend.direction === 'up' ? 'green' : 'red' }}>
+                      {item.trend.value} {item.trend.direction === 'up' ? '↑' : '↓'}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
         <hr></hr>
       <div>
@@ -299,6 +317,22 @@ export function PhotoTrends() {
             )}
           </div>
         </div>
+      </div>
+      <hr/>
+      <div>
+        <div className={styles.explanation}>
+          <h1 className={styles.subtitle}>Tempo Medio di Pubblicazione</h1>
+          <p>
+            Media del tempo trascorso tra lo scatto e la pubblicazione.
+          </p>
+        </div>
+          <div className={analytics_styles.gaugeContainer}>
+            {isAvgLoading? (
+              <LoadingSpinner />
+            ) : (
+              <GaugeChart avg={avg}/>
+            )}
+          </div>
       </div>
     </div>
   );

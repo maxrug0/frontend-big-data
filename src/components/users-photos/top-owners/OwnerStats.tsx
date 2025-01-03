@@ -10,18 +10,18 @@ interface OwnerStatsProps{
 export function OwnerStats({ owner }: OwnerStatsProps){
     return (
         <div className={styles.stats}>
-            <div className={styles.name}>{owner.name}</div>
+            <div className={styles.name}>{owner.username}</div>
             <div className={styles.statItem}>
                 <Camera className={styles.icon} />
-                <span>{formatNumber(owner.totalPhotos)} foto</span>
+                <span>{formatNumber(owner.total_photos)} foto</span>
             </div>
             <div className={styles.statItem}>
                 <Eye className={styles.icon} />
-                <span>{formatNumber(owner.totalViews)} visualizzazioni</span>
+                <span>{formatNumber(owner.total_views)} visualizzazioni</span>
             </div>
             <div className={styles.statItem}>
                 <MessageCircleMore className={styles.icon} />
-                <span>{formatNumber(owner.totalComments)} Commenti</span>
+                <span>{formatNumber(owner.total_comments)} Commenti</span>
             </div>
         </div>
     )

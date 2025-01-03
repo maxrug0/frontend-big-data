@@ -1,6 +1,5 @@
 import { Chart as ChartJS, Title, Tooltip, LinearScale, PointElement, CategoryScale, ChartData } from 'chart.js';
 import { Bubble } from 'react-chartjs-2';
-import React from 'react';
 import { FirstPost } from '@/lib/types';
 
 // Registrazione dei moduli di Chart.js

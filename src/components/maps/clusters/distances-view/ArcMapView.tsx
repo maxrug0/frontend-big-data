@@ -1,23 +1,24 @@
 import { DeckGL } from '@deck.gl/react';
 import { Map } from 'react-map-gl/maplibre';
 import 'maplibre-gl/dist/maplibre-gl.css';
-import { INITIAL_VIEW_STATE_DISTANCES, MAP_STYLE } from '../constants';
-import { lightingEffect } from '../lighting';
-import { createIconLayer, createConnectionLayer } from './distancesLayers';
-import { generateMockData } from './mockData';
+import { INITIAL_VIEW_STATE_DISTANCES, MAP_STYLE } from '../../constants';
+import { lightingEffect } from '../../lighting';
+import { createConnectionLayer } from './arcLayers';
 
-import styles from '../MapView.module.css';
+import styles from '../../MapView.module.css';
 import { useState } from 'react';
 
+import { Distances } from '@/lib/types'; 
+
 interface DistanceMapProps {
-    isLoading: boolean;
-  }
+  data: Distances[]; // Aggiunto il tipo Distances[]
+}
 
-export function DistancesMapView({ isLoading }: DistanceMapProps) {
-  const data = generateMockData();
+export function ArcMapView({ data }: DistanceMapProps) {
+  // Stato per cluster selezionati
+  const [selectedClusters, setSelectedClusters] = useState<Set<number>>(new Set(data.map(({ centroid }) => centroid.label)));
 
-  const [selectedClusters, setSelectedClusters] = useState<Set<number>>(new Set(data.map((_, index) => index)));
-
+  // Funzione per attivare/disattivare un cluster
   const toggleCluster = (index: number) => {
     setSelectedClusters((prev) => {
       const newSet = new Set(prev);
@@ -30,33 +31,32 @@ export function DistancesMapView({ isLoading }: DistanceMapProps) {
     });
   };
 
-  const layers = (data.length >0 && selectedClusters.size > 0)
-    ? [
-        createIconLayer(),
-        createConnectionLayer(data, selectedClusters) // Passa i cluster selezionati
-      ]
-    : [createIconLayer()];
+  // Creazione dei layer
+  const layers = data.length > 0 && selectedClusters.size > 0
+    ? [createConnectionLayer(data, selectedClusters)]
+    : [];
 
   return (
     <div className={styles.container}>
-      {isLoading && <div>Caricamento dati...</div>}
+      {(data.length > 0) && (
       <div className={styles.sidebar}>
         <h3>Filtra per Cluster</h3>
-        {data.map((_, index) => (
+        {data.map(({ centroid }, index) => (
           <div key={index}>
             <input
               type="checkbox"
-              checked={selectedClusters.has(index)}
-              onChange={() => toggleCluster(index)}
+              id={`cluster-${centroid.label}`}
+              checked={selectedClusters.has(centroid.label)}
+              onChange={() => toggleCluster(centroid.label)}
             />
-            <label>Cluster {index}</label>
+            <label htmlFor={`cluster-${centroid.label}`}>Cluster {centroid.label}</label>
           </div>
         ))}
-      </div>
+      </div>)}
       <DeckGL
         initialViewState={INITIAL_VIEW_STATE_DISTANCES}
         controller={{
-          dragRotate: false,
+          dragRotate: true,
           doubleClickZoom: false,
         }}
         layers={layers}
@@ -65,7 +65,7 @@ export function DistancesMapView({ isLoading }: DistanceMapProps) {
           if (!object) {
             return null;
           }
-          if (object.type === 'connection') {
+          if ('distance' in object) {
             return `Centroide ${object.label} - ${object.monumentName}\nDistanza: ${object.distance.toFixed(2)} km`;
           }
           if ('name' in object) {

@@ -16,8 +16,8 @@ export const INITIAL_VIEW_STATE_CLUSTER = {
 export const INITIAL_VIEW_STATE_DISTANCES = {
   longitude: 12.4964,
   latitude: 41.9028,
-  pitch: 45,
-  zoom: 12,
+  pitch: 60,
+  zoom: 11,
 } as const;
 
 export const MAP_STYLE = 'https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json';

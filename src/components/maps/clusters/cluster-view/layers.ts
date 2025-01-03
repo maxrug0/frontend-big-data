@@ -1,7 +1,7 @@
-import { Centroids } from './../../../lib/types';
+import { Centroids } from '../../../../lib/types';
 import { ScatterplotLayer, IconLayer } from '@deck.gl/layers';
 import type { Cluster } from '@/lib/types';
-import centroid from '@/components/assets/x.png';
+import centroid from '@/components/assets/pin.png';
 import monument from '@/components/assets/monument.png';
 
 // Array di 10 colori predefiniti

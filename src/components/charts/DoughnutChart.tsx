@@ -6,10 +6,9 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 interface DoughnutChartProps {
   labels: string[];
   values: number[];
-  title: string;
 }
 
-export function DoughnutChart({ labels, values, title }: DoughnutChartProps) {
+export function DoughnutChart({ labels, values }: DoughnutChartProps) {
   const data = {
     labels,
     datasets: [
@@ -37,8 +36,7 @@ export function DoughnutChart({ labels, values, title }: DoughnutChartProps) {
     responsive: true,
     plugins: {
         title: {
-            display: true,
-            text: title,
+            display: false,
             color: '#FFFFFF',
             font: {
               size: 18,
@@ -55,7 +53,7 @@ export function DoughnutChart({ labels, values, title }: DoughnutChartProps) {
         },
       },
       legend: {
-        position: 'right' as const,
+        position: 'bottom' as const,
         labels: {
           color: '#FFFFFF', // White text color
           font: {

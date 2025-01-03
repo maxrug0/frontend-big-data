@@ -1,11 +1,11 @@
 import { DeckGL } from '@deck.gl/react';
 import { Map } from 'react-map-gl/maplibre';
 import 'maplibre-gl/dist/maplibre-gl.css';
-import { INITIAL_VIEW_STATE_CLUSTER, MAP_STYLE } from '../constants';
-import { lightingEffect } from '../lighting';
-import { createClusterLayer, createIconLayer } from './layers';
+import { INITIAL_VIEW_STATE_CLUSTER, MAP_STYLE } from '../../constants';
+import { lightingEffect } from '../../lighting';
+import { createClusterLayer } from './layers';
 
-import styles from '../MapView.module.css';
+import styles from '../../MapView.module.css';
 import type { Centroids, Cluster } from '@/lib/types';
 
 interface ClusterMapProps {
@@ -17,7 +17,7 @@ interface ClusterMapProps {
 export function ClusterMapView({ clusters, centroids, isLoading }: ClusterMapProps) {
   console.log("Clusters: ",clusters);
   console.log("Centroids: ",centroids);
-  const layers = clusters.length ? [createClusterLayer(clusters, centroids), createIconLayer()] : [createIconLayer()];
+  const layers = clusters.length ? [createClusterLayer(clusters, centroids)] : [];
 
   return (
     <div className={styles.container}>

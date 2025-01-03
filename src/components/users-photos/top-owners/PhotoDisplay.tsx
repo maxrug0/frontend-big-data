@@ -5,9 +5,10 @@ import { formatNumber } from '@/components/maps/clusters/utils';
 
 interface PhotoDisplayProps{
     photo: Photo;
+    rank: number;
 }
 
-export function PhotoDisplay({ photo }: PhotoDisplayProps){
+export function PhotoDisplay({ photo, rank }: PhotoDisplayProps){
     return(
         <div className={styles.photoContainer}>
             <img
@@ -17,9 +18,6 @@ export function PhotoDisplay({ photo }: PhotoDisplayProps){
             />
             <div className={styles.photoOverlay}>
                 <div className={styles.photoStats}>
-                <span className={styles.title}>
-                        {photo.title}
-                    </span>
                     <span className={styles.photoStat}>
                         <Eye className={styles.icon} />
                         {formatNumber(photo.views)}
@@ -30,6 +28,7 @@ export function PhotoDisplay({ photo }: PhotoDisplayProps){
                     </span>
                 </div>
             </div>
+            <div className={styles.rankBadge}>#{rank}</div>
         </div>
     )
 }

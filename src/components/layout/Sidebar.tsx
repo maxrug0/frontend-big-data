@@ -3,11 +3,12 @@ import { useState } from 'react';
 import {
   ChartCandlestick,
   Orbit,
-  TrendingUp,
   Users,
+  Image,
   Camera,
   Tags,
-  Home
+  Home,
+  SearchCheck
 } from 'lucide-react';
 import styles from './Sidebar.module.css';
 
@@ -28,14 +29,15 @@ const menuItems = [
     name: 'Analisi e tendenze',
     icon: ChartCandlestick,
     subMenu: [
-      { name: 'Trend fotografici', icon: TrendingUp, path: '/photo-trends' },
-      { name: 'Analisi dei tag', icon: Tags, path: '/tag-rules' },
-      { name: 'Analisi degli utenti', icon: Users, path: '/top-owners' },
+      { name: 'Trend fotografici', icon: Image, path: '/photos-analytics' },
+      { name: 'Analisi delle camere', icon: Camera, path: '/cameras-analytics' },
+      { name: 'Analisi dei tag', icon: Tags, path: '/tags-analytics' },
+      { name: 'Analisi degli utenti', icon: Users, path: '/users-analytics' },
     ],
   },
   {
     name: 'Ricerca foto',
-    icon: Camera,
+    icon: SearchCheck,
     subMenu: [],
     path: '/photo-search'
   },

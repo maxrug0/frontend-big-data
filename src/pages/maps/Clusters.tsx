@@ -1,39 +1,19 @@
 import { useState } from 'react';
-import { ClusterControls } from '@/components/maps/clusters/ClusterControl';
-import { ClusterMapView } from '@/components/maps/clusters/ClusterMapView';
+import { ClusterControls } from '@/components/maps/clusters/cluster-view/ClusterControl';
+import { ClusterMapView } from '@/components/maps/clusters/cluster-view/ClusterMapView';
 import { KMeans } from '@/components/api/api';
 import styles from '../common.module.css';
 import map_styles from './map.module.css';
-import type { Centroids, CentroidsData, Cluster, ClusterData, KMeansResponse } from '@/lib/types';
+import type { Centroids, CentroidsData, Cluster, ClusterData, Distances, KMeansResponse } from '@/lib/types';
 import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
-import { DistancesMapView } from '@/components/maps/clusters/DistancesMapView';
+import { ArcMapView } from '@/components/maps/clusters/distances-view/ArcMapView';
 
 export function Clusters() {
   const [k, setK] = useState<number>(5);
   const [clusters, setClusters] = useState<Cluster[]>([]);
   const [centroids, setCentroids] = useState<Centroids[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-
-  const MOCK_DATA: Cluster[] = [
-    { latitude: 41.9028, longitude: 12.4964, label: 1 }, // Centro di Roma
-    { latitude: 41.9097, longitude: 12.4823, label: 2 }, // Piazza di Spagna
-    { latitude: 41.8902, longitude: 12.4922, label: 10 }, // Colosseo
-    { latitude: 41.9029, longitude: 12.4534, label: 1 }, // Vaticano
-    { latitude: 41.8760, longitude: 12.4808, label: 2 }, // Trastevere
-    { latitude: 41.8986, longitude: 12.4768, label: 3 }, // Pantheon
-    { latitude: 41.9115, longitude: 12.4546, label: 1 }, // Villa Borghese
-    { latitude: 41.8892, longitude: 12.4722, label: 2 }, // Aventino
-    { latitude: 41.9301, longitude: 12.4480, label: 3 }, // Monte Mario
-    { latitude: 41.9025, longitude: 12.5144, label: 4 } // San Giovanni
-  ];
-  
-  const MOCK_CENTROIDS: Centroids[] = [
-    { latitude: 41.9028, longitude: 12.4964 }, // Centro di Roma
-    { latitude: 41.8902, longitude: 12.4922 }, // Colosseo
-    { latitude: 41.9115, longitude: 12.4546 }, // Villa Borghese
-    { latitude: 41.9301, longitude: 12.4480 }, // Monte Mario
-  ];
-  
+  const [distances, setDistances] = useState<Distances[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);  
 
   const fetchClusterData = async (clusters: number) => {
     setIsLoading(true);
@@ -57,6 +37,7 @@ export function Clusters() {
 
       setClusters(mappedCluster);
       setCentroids(mappedCentroids);
+      setDistances(kMeansResponse.distanze);
       //setClusters(MOCK_DATA);
       //setCentroids(MOCK_CENTROIDS)
     } catch (error) {
@@ -94,8 +75,20 @@ export function Clusters() {
         )
       }
       </div>
+      <hr />
+      <div>
+        <p className={styles.text}>
+        Nella mappa sottostante sono rappresentate le distanze in linea d'aria tra i centroidi dei cluster e i diversi monumenti. <br/>
+        Il menu laterale permette di selezionare o deselezionare i cluster per una visualizzazione più chiara. Passando con il cursore sugli archi, è possibile visualizzare un tooltip con informazioni dettagliate.
+        </p>
+      </div>
       <div className={map_styles.mapWrapper}>
-        <DistancesMapView isLoading={false}/>
+      {isLoading ? (
+            <LoadingSpinner />
+          ) : (
+         <ArcMapView data={distances}/>
+        )
+      }
       </div>
     </div>
   );

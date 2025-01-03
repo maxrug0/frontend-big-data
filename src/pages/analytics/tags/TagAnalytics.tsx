@@ -2,13 +2,13 @@ import { useState, useEffect } from 'react';
 import { RuleCard } from '@/components/analytics/tag-rules/RuleCard';
 import { RuleFilters } from '@/components/analytics/tag-rules/RuleFilters'; // Importa RuleFilters
 import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
-import styles from '../common.module.css';
-import analytics_styles from './analytics.module.css';
+import styles from '@/pages/common.module.css';
+import analytics_styles from '../analytics.module.css';
 import type { AssociationRule, RuleSearchFilters, TagsResponse } from '@/lib/types';
 import { topTags, getAssociationRules } from '@/components/api/api';
 import { WordCloudComponent } from '@/components/charts/WordCloud';
 
-export function TagRules() {
+export function TagAnalytics() {
     const [availableTags, setAvailableTags] = useState<string[]>([]);
     const [rules, setRules] = useState<AssociationRule[]>([]);
     const [tags, setTags] = useState<TagsResponse[]>([]);
@@ -19,7 +19,7 @@ export function TagRules() {
         const fetchData = async () => {
             setIsLoading(true);
             try {
-                const tagsData: TagsResponse[] = await topTags(500); 
+                const tagsData: TagsResponse[] = await topTags(50); 
                 setTags(tagsData);
                 const mappedTags: string[] = tagsData.map(tag => tag.tagValue);
                 setAvailableTags(mappedTags);

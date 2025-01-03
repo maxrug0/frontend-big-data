@@ -11,24 +11,28 @@ interface OwnerProps{
 export function OnwerCard({ owner }: OwnerProps){
     return(
         <div className={styles.card}>
-            <div className={styles.rank}>
-                #{owner.rank}
-            </div>
             <div className={styles.topRow}>
                 <div className={styles.userInfo}>
                     <img
-                        src={owner.avatarUrl}
-                        alt={owner.name}
+                        src={owner.avatar_url}
+                        alt={owner.username}
                         className={styles.avatar}
                     />
                     <OwnerStats owner={owner} />
                 </div>
                 <div className={styles.chartSection}>
-                    <CameraStats cameraStats={owner.cameraInfo}/>
+                    <CameraStats cameraStats={owner.camera_details}/>
                 </div>
             </div>
             <div className={styles.bottomoRow}>
-                <PhotoDisplay photo={owner.bestPhoto}/>
+            <div className={styles.photoContainer}>
+                <PhotoDisplay photo={{
+                    url: owner.best_photo_url,
+                    views: owner.most_viewed_photo_views,
+                    comments: owner.most_viewed_photo_comments,
+                }}
+                rank={owner.rank}/>
+                </div>
             </div>
         </div>
     );

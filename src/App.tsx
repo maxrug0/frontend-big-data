@@ -5,11 +5,12 @@ import styles from './App.module.css';
 import { Home } from './pages/maps/Home';
 import { Clusters } from './pages/maps/Clusters';
 
-import { PhotoTrends } from './pages/analytics/PhotoTrends';
-import { TagRules } from './pages/analytics/TagRules';
-import { PhotoSearch } from './pages/users-photos/PhotoSearch';
+import { PhotoAnalytics } from './pages/analytics/photo/PhotoAnalytics';
+import { CameraAnalytics } from './pages/analytics/cameras/CamerasAnalytics';
+import { TagAnalytics } from './pages/analytics/tags/TagAnalytics';
+import { PhotoSearch } from './pages/photo-search/PhotoSearch';
 
-import { TopOwners } from './pages/users-photos/TopOwners';
+import { UsersAnalytics } from './pages/analytics/users/UsersAnalytics';
 
 function App() {
   return (
@@ -21,9 +22,10 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/clusters" element={<Clusters />} />
-              <Route path="/photo-trends" element={<PhotoTrends />} />
-              <Route path="/top-owners" element={<TopOwners />} />
-              <Route path="/tag-rules" element={<TagRules />} />
+              <Route path="/photos-analytics" element={<PhotoAnalytics />} />
+              <Route path='/cameras-analytics' element={<CameraAnalytics />} />
+              <Route path="/users-analytics" element={<UsersAnalytics />} />
+              <Route path="/tags-analytics" element={<TagAnalytics />} />
               <Route path="/photo-search" element={<PhotoSearch />} />
             </Routes>
           </div>

@@ -1,15 +1,15 @@
 import { useState } from 'react';
 import styles from '@/components/users-photos/photo-search/search-filters.module.css';
-import { UserSearchFilters } from '@/lib/types';
+import { CameraSearch } from '@/lib/types';
 
 interface SearchFiltersProps{
-    onSearch: (filters: UserSearchFilters) => void;
+    onSearch: (filters: CameraSearch) => void;
 }
 
-export function OwnerSearchFilters({ onSearch }: SearchFiltersProps ){
+export function CameraSearchFilters({ onSearch }: SearchFiltersProps ){
 
-    const [filters, setFilters] = useState<UserSearchFilters>({
-        owner: ''
+    const [filters, setFilters] = useState<CameraSearch>({
+        brand: ''
     });
     
     const handleSubmit = (e: React.FormEvent) => {
@@ -21,15 +21,15 @@ export function OwnerSearchFilters({ onSearch }: SearchFiltersProps ){
         <form onSubmit={handleSubmit} className={styles.form}>
             <div className={styles.textFilters}>
                 <div className={styles.input}>
-                    <label htmlFor='username'>Nome utente</label>
+                    <label htmlFor='brand'>Brand</label>
                     <input 
                         type='text' 
-                        id='owner' 
+                        id='brand' 
                         placeholder='Cerca...' 
-                        value={filters.owner}
+                        value={filters.brand}
                         onChange={e => setFilters(prev => ({
                             ...prev,
-                            owner: e.target.value
+                            brand: e.target.value
                         }))}
                     />
                 </div>
@@ -37,7 +37,7 @@ export function OwnerSearchFilters({ onSearch }: SearchFiltersProps ){
             <button
                 type="submit"
                 className={styles.searchButton}
-                disabled={filters.owner.trim() === ''}
+                disabled={filters.brand.trim() === ''}
             >
                 Cerca
             </button>
