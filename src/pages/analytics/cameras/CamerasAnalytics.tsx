@@ -2,15 +2,17 @@ import styles from '@/pages/common.module.css';
 import analytics_styles from '../analytics.module.css';
 import photo_search_styles from "@/components/users-photos/photo-search/search-filters.module.css";
 import { useEffect, useState } from 'react';
-import { CameraSearch, SearchedCamera, TopCameraPerYear } from '@/lib/types';
+import { CameraSearch, SearchedCamera, TopBrandAndModels, TopCameraPerYear } from '@/lib/types';
 import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
-import { getCamerasInfo, getTopCamerasPerYear } from '@/components/api/api';
+import { getCamerasInfo, getTopBrandsAndModels, getTopCamerasPerYear } from '@/components/api/api';
 import { CameraSearchFilters } from '@/components/analytics/tag-rules/camera/CameraSearchFilters';
 import { CameraLineChart } from '@/components/charts/CameraLineChart';
 import { CameraBarChart } from '@/components/charts/CameraBarChart';
+import { CameraCard } from '@/components/analytics/tag-rules/camera/CameraCard';
 
 export function CameraAnalytics(){
     const [topCameras, setTopCameras] = useState<TopCameraPerYear[]>([]);
+    const [topBrandsAndModels, setTopBrandsAndModels] = useState<TopBrandAndModels[]>([]);
     const [searchedCameras, setSearchedCameras] = useState<SearchedCamera[]>([])
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [isSearching, setIsSearching] = useState<boolean>(false);
@@ -43,7 +45,21 @@ export function CameraAnalytics(){
             }
         }
 
+        const fetchTopBrands = async () => {
+          setIsLoading(true);
+          try{
+              const data = await getTopBrandsAndModels();
+              console.log('Camere ricevute: ',data)
+              setTopBrandsAndModels(data);
+          }   catch (error){
+              console.error("Errore nel recupero dei dati", error)
+          } finally{
+              setIsLoading(false);
+          }
+      }
+
         fetchTopCamera();
+        fetchTopBrands();
     }, []);
 
     return(
@@ -65,7 +81,24 @@ export function CameraAnalytics(){
             ) : (
               <CameraLineChart cameras={topCameras}/>
             )}
-          </div>
+            </div>
+            <hr/>
+            <div className={styles.explanation}>
+                <h1 className={styles.subtitle}>I migliori brand</h1>
+                <p>
+                Ecco i 4 brand di fotocamere più utilizzati dagli utenti! In questa sezione, ti mostriamo i marchi che dominano il panorama delle fotografie e i loro 5 modelli più popolari. 
+                </p>
+            </div>
+            {isLoading ? (
+              <LoadingSpinner />
+            ) : (
+            <div className={analytics_styles.cameraCardGrid}>
+              {topBrandsAndModels.map(camera =>
+                  <CameraCard camera={camera}/>
+              )}   
+                </div>
+              
+            )}
             <hr/>
             <div className={styles.explanation}>
                 <h1 className={styles.subtitle}>Scopri l'utilizzo delle fotocamere per ogni brand</h1>

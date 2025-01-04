@@ -133,3 +133,12 @@ margin-right: 8px;
   border: 1px solid rgba(39, 39, 42, 0.5);
   border-radius: 12px;
 }
+
+.cameraCardGrid{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem;
+}

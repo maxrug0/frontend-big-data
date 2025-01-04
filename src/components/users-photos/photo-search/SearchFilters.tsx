@@ -2,80 +2,83 @@ import { useState } from 'react';
 import styles from './search-filters.module.css';
 import { PhotoSearchFilters } from '@/lib/types';
 
-interface SearchFiltersProps{
-    availableTags: string[];
+interface SearchFiltersProps {
     onSearch: (filters: PhotoSearchFilters) => void;
 }
 
-export function SearchFilters({ availableTags, onSearch }: SearchFiltersProps ){
+export function SearchFilters({ onSearch }: SearchFiltersProps) {
     const MIN_DATE = '2000-01-01';
     const MAX_DATE = '2017-12-31';
 
     const [filters, setFilters] = useState<PhotoSearchFilters>({
-        startDate: MIN_DATE, // Formato: YYYY-MM-DD
+        startDate: MIN_DATE,
         endDate: MAX_DATE,
         keyword: '',
         tags: [],
     });
 
-    
-      const handleSubmit = (e: React.FormEvent) => {
+    const [newTag, setNewTag] = useState<string>('');
+
+    const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         onSearch(filters);
-      };
+    };
 
-    const availableTagsFiltered = availableTags.filter(
-        tag => !filters.tags.includes(tag)
-    );
-
-    const handleTagSelect = (tag: string) => {
-        setFilters(prev => ({
-            ...prev,
-            tags: [...prev.tags, tag]
-        }));
+    const handleAddTag = () => {
+        if (newTag.trim() && !filters.tags.includes(newTag)) {
+            setFilters(prev => ({
+                ...prev,
+                tags: [...prev.tags, newTag.trim()],
+            }));
+            setNewTag(''); // Resetta il campo input
+        }
     };
 
     const handleRemoveTag = (tagToRemove: string) => {
         setFilters(prev => ({
             ...prev,
-            tags: prev.tags.filter(tag => tag != tagToRemove)
+            tags: prev.tags.filter(tag => tag !== tagToRemove),
         }));
     };
-    
+
     return (
         <form onSubmit={handleSubmit} className={styles.form}>
             <div className={styles.textFilters}>
                 <div className={styles.input}>
-                    <label htmlFor='keyword'>Keyword</label>
-                    <input 
-                        type='text' 
-                        id='keyword' 
-                        placeholder='Cerca per keyword...' 
+                    <label htmlFor="keyword">Keyword</label>
+                    <input
+                        type="text"
+                        id="keyword"
+                        placeholder="Cerca per keyword..."
                         value={filters.keyword}
-                        onChange={e => setFilters(prev => ({
-                            ...prev,
-                            keyword: e.target.value
-                        }))}
+                        onChange={e =>
+                            setFilters(prev => ({
+                                ...prev,
+                                keyword: e.target.value,
+                            }))
+                        }
                     />
                 </div>
             </div>
             <div className={styles.tagSection}>
-                <div className={styles.tagSelect}>
-                    <label htmlFor='tags'>Tags</label>
-                    <select
-                        id='tags'
-                        onChange={e => {
-                            if (e.target.value) {
-                                handleTagSelect(e.target.value);
-                                e.target.value = '';
-                            }
-                        }}
-                    >
-                        <option value="">Seleziona i tags...</option>
-                        {availableTagsFiltered.map(tag => (
-                            <option key={tag} value={tag}>{tag}</option>
-                        ))}
-                    </select>
+            <div className={styles.input}>
+                <label htmlFor="newTag">Tags</label>
+                    <div className={styles.tagInputWrapper}>
+                        <button
+                            type="button"
+                            onClick={handleAddTag}
+                            className={styles.addTagButton}
+                        >
+                            +
+                        </button>
+                        <input
+                            type="text"
+                            id="newTag"
+                            placeholder="Aggiungi un tag..."
+                            value={newTag}
+                            onChange={e => setNewTag(e.target.value)}
+                        />
+                    </div>
                 </div>
                 <div className={styles.selectedTags}>
                     {filters.tags.map(tag => (
@@ -86,13 +89,12 @@ export function SearchFilters({ availableTags, onSearch }: SearchFiltersProps ){
                                 onClick={() => handleRemoveTag(tag)}
                                 className={styles.removeTag}
                             >
-                            ×
+                                ×
                             </button>
-                    </span>
+                        </span>
                     ))}
                 </div>
             </div>
-            {/* Date Pickers */}
             <div className={styles.dateFilters}>
                 <div className={styles.datePicker}>
                     <label htmlFor="startDate">Data Inizio</label>
@@ -106,7 +108,10 @@ export function SearchFilters({ availableTags, onSearch }: SearchFiltersProps ){
                             setFilters(prev => ({
                                 ...prev,
                                 startDate: e.target.value,
-                                endDate: prev.endDate && prev.endDate < e.target.value ? '' : prev.endDate, // Resetta dataFine se è precedente
+                                endDate:
+                                    prev.endDate && prev.endDate < e.target.value
+                                        ? ''
+                                        : prev.endDate,
                             }))
                         }
                     />
@@ -117,8 +122,8 @@ export function SearchFilters({ availableTags, onSearch }: SearchFiltersProps ){
                         type="date"
                         id="endDate"
                         value={filters.endDate}
-                        min={filters.startDate || MIN_DATE} // Imposta il minimo a dataInizio o il limite inferiore
-                        max={MAX_DATE} // Limita il massimo a MAX_DATE
+                        min={filters.startDate || MIN_DATE}
+                        max={MAX_DATE}
                         onChange={e =>
                             setFilters(prev => ({
                                 ...prev,

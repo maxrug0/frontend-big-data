@@ -46,7 +46,7 @@ export function BarChart({ hourData, barColor = 'rgba(96, 165, 250, 0.8)', title
           },
         tooltip: {
           callbacks: {
-            label: (context: any) => `${context.raw.toLocaleString()} photos`,
+            label: (context: any) => `${context.raw.toLocaleString()} foto`,
           },
         },
       },

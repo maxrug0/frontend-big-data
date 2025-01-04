@@ -78,6 +78,14 @@ export interface CameraSearch {
 
 export type SearchedCamera = [string, number];
 
+export type Models = [string, number];
+export interface TopBrandAndModels{
+  brand: string;
+  models_list: Models[];
+  rank: number;
+  total_count: number;
+}
+
 //######################################
 
 // Analisi dei tag
@@ -132,7 +140,7 @@ export interface OwnerSearched {
   total_comments: number;
   total_photos: number;
   total_views: number;
-  user_id: string;
+  owner_id: string;
   username: string;
 }
 
@@ -165,14 +173,13 @@ export interface ProVsNonProResponse{
 // Ricerca foto
 
 export interface PhotoSearched {
-  url: string;
-  username: string;
+  datePosted: string;
+  dateTaken: string;
   tags: string[];
   title: string;
-  description: string;
+  url: string;
+  username: string;
   views: number;
-  dateTaken: string;
-  datePosted: string;
 }
 
 export interface PhotoSearchFilters {

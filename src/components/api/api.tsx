@@ -1,5 +1,5 @@
 import axios from "axios";
-import type { TagsResponse, AssociationRule, CoordinateData, KMeansResponse, PhotoSearched, PhotoCount, HourData, OwnerSearched, PopularOwner, FirstPost, AvgData, ProVsNonProResponse, TopCameraPerYear, SearchedCamera } from "@/lib/types";
+import type { TagsResponse, AssociationRule, CoordinateData, KMeansResponse, PhotoSearched, PhotoCount, HourData, OwnerSearched, PopularOwner, FirstPost, AvgData, ProVsNonProResponse, TopCameraPerYear, SearchedCamera, TopBrandAndModels } from "@/lib/types";
 
 const api = axios.create({
   baseURL: "https://bqgq98pb-8080.euw.devtunnels.ms", 
@@ -18,7 +18,7 @@ export const getCoordinates = async (): Promise<CoordinateData[]> => {
 
 // Clusters
 export const KMeans = async (k: number): Promise<KMeansResponse> => {
-  const response = await api.get(`/runKMeans2`, {params: { k }});
+  const response = await api.get(`/runKMeans`, {params: { k }});
   return response.data;
 };
 
@@ -27,6 +27,11 @@ export const KMeans = async (k: number): Promise<KMeansResponse> => {
 // CameraAnalytics
 export const getTopCamerasPerYear = async (): Promise<TopCameraPerYear[]> =>{
   const response = await api.get(`/topCamerasPerYear`);
+  return response.data;
+}
+
+export const getTopBrandsAndModels = async (): Promise<TopBrandAndModels[]> =>{
+  const response = await api.get(`/getTopBrandAndCameras`);
   return response.data;
 }
 
@@ -62,7 +67,7 @@ export const getAvgTimeToPost = async (): Promise<AvgData[]> => {
 }
 
 // Tag Analytitcs
-export const topTags = async (limit: number): Promise<TagsResponse[]> => {
+export const topTags = async (limit?: number): Promise<TagsResponse[]> => {
   const response = await api.get(`/topTags`, { params: { limit } });
   return response.data;
 };
