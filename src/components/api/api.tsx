@@ -1,5 +1,5 @@
 import axios from "axios";
-import type { TagsResponse, AssociationRule, CoordinateData, KMeansResponse, PhotoSearched, PhotoCount, HourData, OwnerSearched, PopularOwner, FirstPost, AvgData, ProVsNonProResponse, TopCameraPerYear, SearchedCamera, TopBrandAndModels } from "@/lib/types";
+import type { TagsResponse, AssociationRule, CoordinateData, KMeansResponse, PhotoSearched, PhotoCount, HourData, OwnerSearched, PopularOwner, FirstPost, AvgData, ProVsNonProResponse, TopCameraPerYear, SearchedCamera, TopBrandAndModels, TotalUsers, AvgMdnViews, AvgMdnComments, AvgViewsYear, TotalRows, AvgCommentsYear, Accuracy, TotalCameraBrands } from "@/lib/types";
 
 const api = axios.create({
   baseURL: "https://bqgq98pb-8080.euw.devtunnels.ms", 
@@ -11,6 +11,46 @@ const api = axios.create({
 // ########## MAPS ##########
 
 // Home
+export const getTotalRows = async (): Promise<TotalRows> => {
+  const response = await api.get(`/countRows`);
+  return response.data;
+};
+
+export const getTotalUsers = async (): Promise<TotalUsers> => {
+  const response = await api.get(`/countUsers`);
+  return response.data;
+};
+
+export const getTotalCameras = async (): Promise<TotalCameraBrands> => {
+  const response = await api.get(`/brandCount`);
+  return response.data;
+};
+
+export const getViewsStats = async (): Promise<AvgMdnViews[]> => {
+  const response = await api.get(`/viewStats`);
+  return response.data;
+};
+
+export const getCommentsStats = async (): Promise<AvgMdnComments[]> => {
+  const response = await api.get(`/commentStats`);
+  return response.data;
+};
+
+export const getAvgViewsPerYear = async (): Promise<AvgViewsYear[]> => {
+  const response = await api.get(`/avgViewsPerYear`);
+  return response.data;
+};
+
+export const getAvgCommentsPerYear = async (): Promise<AvgCommentsYear[]> => {
+  const response = await api.get(`/avgCommentsPerYear`);
+  return response.data;
+};
+
+export const getAccuracyDistribution = async (): Promise<Accuracy[]> => {
+  const response = await api.get(`/accuracyDistribution`);
+  return response.data;
+};
+
 export const getCoordinates = async (): Promise<CoordinateData[]> => {
   const response = await api.get(`/photosByCoordinates`);
   return response.data;

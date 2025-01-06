@@ -18,6 +18,7 @@ body {
   flex-direction: column;
   gap: 24px;
   padding-bottom: 10vh; /* Spazio extra del 10% sotto il contenuto */
+  margin-top: 3em;
 }
 
 .header {
@@ -48,6 +49,7 @@ body {
   gap: 24px;
   padding: 24px;
   backdrop-filter: blur(8px);
+  margin-top: 2em;
 }
 
 .text {
@@ -81,4 +83,11 @@ hr {
   padding: 1.5rem;
   /*background: rgba(39, 39, 42, 0.5);*/
   border-radius: 8px;
+}
+
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin-top: 3em;
 }

@@ -142,3 +142,17 @@ margin-right: 8px;
   margin: 0 auto;
   padding: 2rem;
 }
+
+.statsGridDashboard {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin-bottom: 3em;
+  margin-top: 3em;
+}
+
+.chartsGridDashboard {
+  display: grid;
+  grid-template-rows: 2fr 1fr;
+  gap: 1rem;
+}

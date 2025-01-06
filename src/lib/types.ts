@@ -1,4 +1,47 @@
 // Home
+
+export type TotalRows = number;
+
+export type TotalUsers = number;
+
+export type TotalCameraBrands = number;
+
+export interface  AvgMdnViews{
+  average_views: number;
+  median_views: number;
+}
+
+export interface  AvgMdnComments{
+  average_comments: number;
+  median_comments: number;
+}
+
+export interface  AvgViewsYear{
+  average_views: number;
+  yearPosted: number;
+}
+
+export interface  AvgCommentsYear{
+  average_comments: number;
+  yearPosted: number;
+}
+
+export interface  Accuracy{
+  accuracy: number;
+  count: number;
+}
+
+export interface StatsOverviewProps {
+  totalRows: TotalRows
+  totalUsers: TotalUsers;
+  totalBrands: TotalCameraBrands;
+  viewsStats: AvgMdnViews
+  commentsStats: AvgMdnComments;
+  yearlyViews: AvgViewsYear[];
+  yearlyComments: AvgCommentsYear[];
+  accuracyDistribution: Accuracy[];
+}
+
 export type CoordinateData = [number, number, number]; // [latitude, longitude, intensity]
 export interface Coordinate {
   position: [number, number];

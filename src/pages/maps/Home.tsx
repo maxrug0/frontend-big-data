@@ -2,16 +2,69 @@ import { MapView } from '@/components/maps/deckgl/MapView';
 import styles from '../common.module.css';
 import map_styles from './map.module.css';
 import { useEffect, useState } from 'react';
-import { Coordinate, CoordinateData } from '@/lib/types';
-import { getCoordinates } from '@/components/api/api';
+import { Accuracy, AvgCommentsYear, AvgMdnComments, AvgMdnViews, AvgViewsYear, Coordinate, CoordinateData, TotalCameraBrands, TotalRows, TotalUsers } from '@/lib/types';
+import { getCoordinates, 
+  getTotalRows, 
+  getTotalUsers,
+  getTotalCameras,
+  getViewsStats,
+  getCommentsStats,
+  getAvgViewsPerYear,
+  getAvgCommentsPerYear,
+  getAccuracyDistribution
+} from '@/components/api/api';
 import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
-import { RingProgress } from '@/components/charts/RingProgress';
+import { StatsOverview } from '@/components/home/StatsOverview';
 
 export function Home() {
+  const [rows, setRows] = useState<TotalRows>(0);
+  const [users, setUsers] = useState<TotalUsers>(0);
+  const [brands, setBrands] = useState<TotalCameraBrands>(0);
+  const [views, setViews] = useState<AvgMdnViews>({
+    average_views: 0,
+    median_views: 0,
+  });
+  const [comments, setComments] = useState<AvgMdnComments>({
+    average_comments: 0,
+    median_comments: 0,
+  });
+  const [viewsYear, setViewsYear] = useState<AvgViewsYear[]>([]);
+  const [commentsYear, setCommentsYear] = useState<AvgCommentsYear[]>([]);
+  const [accuracy, setAccuracy] = useState<Accuracy[]>([]);
+
   const [coordinates, setCoordinates] = useState<Coordinate[]>([]);
+
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isDashboradLoading, setIsDashboradLoading] = useState<boolean>(true);
   
   useEffect(() => {
+
+    const fethData = async () => {
+      setIsDashboradLoading(true);
+      try{
+        const rowsData = await getTotalRows();
+        setRows(rowsData);
+        const usersData = await getTotalUsers();
+        setUsers(usersData);
+        const brandsData = await getTotalCameras();
+        setBrands(brandsData);
+        const viewsData = await getViewsStats();
+        setViews(viewsData[0]);
+        const commentsData = await getCommentsStats();
+        setComments(commentsData[0]);
+        const viewYearData = await getAvgViewsPerYear();
+        setViewsYear(viewYearData);
+        const commentsYearData = await getAvgCommentsPerYear();
+        setCommentsYear(commentsYearData);
+        const accuracyData = await getAccuracyDistribution();
+        setAccuracy(accuracyData);
+      } catch(error){
+        console.error('Errore nel recupero dei dati:', error);
+      } finally {
+        setIsDashboradLoading(false);
+      }
+    }
+
     const fetchCoordinates = async () => {
       setIsLoading(true);
       try {
@@ -36,6 +89,8 @@ export function Home() {
         setIsLoading(false);
       }
     };
+
+    fethData();
     fetchCoordinates();
   }, []);
 
@@ -46,32 +101,31 @@ export function Home() {
           <h2 className={styles.title}>Homepage</h2>
         </div>
         <hr></hr>
-        <div>
+        <div className={styles.explanation}>
           <h2 className={styles.subtitle}>Informazioni sul dataset</h2>
-          <p className={styles.text}>
+          <p>
           Il dataset contiene fotografie geolocalizzate di Roma raccolte tra il 2001 e il 2017. <br/>
             Le righe sono state filtrate e processate per garantire la qualità e la rilevanza 
             dei dati, mantenendo solo le foto più significative e rimuovendo contenuti duplicati 
             o non pertinenti.
           </p>
-          <div className={styles.statsGrid}>
-            <div className={styles.statCard}>
-              <RingProgress
-                value={100}
-                label="Dataset Originale"
-                count={1_523_034}
-                color="#66BB6A"
-              />
-            </div>
-            <div className={styles.statCard}>
-              <RingProgress
-                value={80}
-                label="Dataset Filtrato"
-                count={1_081_259}
-                color="#42A5F5"
-              />
-            </div>
-          </div>
+        <div  className={styles.content}>
+        {isDashboradLoading ? 
+          <LoadingSpinner/>
+          :(
+            <StatsOverview
+              totalRows={rows}
+              totalUsers={users}
+              totalBrands={brands}
+              viewsStats={views}
+              commentsStats={comments}
+              yearlyViews={viewsYear}
+              yearlyComments={commentsYear}
+              accuracyDistribution={accuracy}
+            />
+          )
+        }
+        </div>
         </div>
         <hr></hr>
         <div>

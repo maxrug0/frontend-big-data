@@ -5,10 +5,10 @@ import { useEffect, useState } from 'react';
 import { CameraSearch, SearchedCamera, TopBrandAndModels, TopCameraPerYear } from '@/lib/types';
 import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
 import { getCamerasInfo, getTopBrandsAndModels, getTopCamerasPerYear } from '@/components/api/api';
-import { CameraSearchFilters } from '@/components/analytics/tag-rules/camera/CameraSearchFilters';
+import { CameraSearchFilters } from '@/components/analytics/camera/CameraSearchFilters';
 import { CameraLineChart } from '@/components/charts/CameraLineChart';
 import { CameraBarChart } from '@/components/charts/CameraBarChart';
-import { CameraCard } from '@/components/analytics/tag-rules/camera/CameraCard';
+import { CameraCard } from '@/components/analytics/camera/CameraCard';
 
 export function CameraAnalytics(){
     const [topCameras, setTopCameras] = useState<TopCameraPerYear[]>([]);
