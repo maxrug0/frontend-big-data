@@ -9,7 +9,7 @@ export function getTooltip({ object }: PickingInfo) {
   const count = object.points.length;
 
   return `\
-    latitude: ${Number.isFinite(lat) ? lat.toFixed(6) : ''}
-    longitude: ${Number.isFinite(lng) ? lng.toFixed(6) : ''}
-    Intensity: ${count}`;
+    Latitudine: ${Number.isFinite(lat) ? lat.toFixed(6) : ''}
+    Longitudine: ${Number.isFinite(lng) ? lng.toFixed(6) : ''}
+    Conteggio: ${count}`;
 }

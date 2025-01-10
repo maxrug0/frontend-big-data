@@ -104,7 +104,7 @@ export function Home() {
         <div className={styles.explanation}>
           <h2 className={styles.subtitle}>Informazioni sul dataset</h2>
           <p>
-          Il dataset contiene fotografie geolocalizzate di Roma raccolte tra il 2001 e il 2017. <br/>
+          Il dataset contiene fotografie geolocalizzate di Roma raccolte tra il 2000 e il 2017. <br/>
             Le righe sono state filtrate e processate per garantire la qualità e la rilevanza 
             dei dati, mantenendo solo le foto più significative e rimuovendo contenuti duplicati 
             o non pertinenti.
@@ -129,7 +129,7 @@ export function Home() {
         </div>
         <hr></hr>
         <div>
-        <h2 className={styles.subtitle}>Destribuzione geografica delle foto</h2>
+        <h2 className={styles.subtitle}>Distribuzione geografica delle foto</h2>
           <p className={styles.text}>
             Esplora la distribuzione geografica dei post di Flickr con foto geotaggate.<br />
             Ogni esagono rappresenta un'area che aggrega le foto pubblicate, 

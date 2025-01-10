@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { RuleCard } from '@/components/analytics/tag-rules/RuleCard';
-import { RuleFilters } from '@/components/analytics/tag-rules/RuleFilters'; // Importa RuleFilters
+import { RuleCard } from '@/components/analytics/tags/RuleCard';
+import { RuleFilters } from '@/components/analytics/tags/RuleFilters'; // Importa RuleFilters
 import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
 import styles from '@/pages/common.module.css';
 import analytics_styles from '../analytics.module.css';
@@ -9,7 +9,6 @@ import { topTags, getAssociationRules } from '@/components/api/api';
 import { WordCloudComponent } from '@/components/charts/WordCloud';
 
 export function TagAnalytics() {
-    const [availableTags, setAvailableTags] = useState<string[]>([]);
     const [rules, setRules] = useState<AssociationRule[]>([]);
     const [tags, setTags] = useState<TagsResponse[]>([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -21,8 +20,6 @@ export function TagAnalytics() {
             try {
                 const tagsData: TagsResponse[] = await topTags(50); 
                 setTags(tagsData);
-                const mappedTags: string[] = tagsData.map(tag => tag.tagValue);
-                setAvailableTags(mappedTags);
             } catch (error) {
                 console.error('Errore nel recupero dei tags:', error);
             } finally {
@@ -94,7 +91,6 @@ export function TagAnalytics() {
                 </div>
 
                 <RuleFilters
-                    availableTags={availableTags}
                     onSearch={handleSearch}
                 />
                 <div className={analytics_styles.results}>

@@ -1,11 +1,10 @@
 import { Users, Camera, Eye, MessageCircle } from 'lucide-react';
 import { StatCard } from './StatsCard';
 import { YearlyChart } from '../charts/YearlyChart'; 
-import { AccuracyChart } from '../charts/AccuracyChart'; 
 import { formatNumber } from '../maps/clusters/utils'; 
 import styles from '@/pages/analytics/analytics.module.css';
 import common_styles from '@/pages/common.module.css';
-import { Accuracy, AvgCommentsYear, AvgMdnComments, AvgMdnViews, AvgViewsYear, StatsOverviewProps, TotalCameraBrands, TotalRows, TotalUsers } from '@/lib/types';
+import { StatsOverviewProps } from '@/lib/types';
 import { RingProgress } from '../charts/RingProgress';
 
 export function StatsOverview({
@@ -16,7 +15,6 @@ export function StatsOverview({
   commentsStats,
   yearlyViews,
   yearlyComments,
-  accuracyDistribution
 }: StatsOverviewProps) {
   return (
     <div>
@@ -25,13 +23,13 @@ export function StatsOverview({
               <RingProgress
                 value={100}
                 label="Dataset Originale"
-                count={1_523_034}
+                count={2_254_450}
                 color="#66BB6A"
               />
             </div>
             <div className={common_styles.statCard}>
               <RingProgress
-                value={80}
+                value={(totalRows / 2_254_450) * 100}
                 label="Dataset Filtrato"
                 count={totalRows}
                 color="#42A5F5"
@@ -40,12 +38,12 @@ export function StatsOverview({
           </div>
       <div className={styles.statsGridDashboard}>
         <StatCard
-          title="Total Users"
+          title="Utenti"
           value={formatNumber(totalUsers)}
           icon={Users}
         />
         <StatCard
-          title="Camera Brands"
+          title="Brand di fotocamere"
           value={formatNumber(totalBrands)}
           icon={Camera}
         />

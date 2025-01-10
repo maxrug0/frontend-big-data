@@ -3,16 +3,17 @@ import styles from './rule-filters.module.css';
 import { RuleSearchFilters } from '@/lib/types';
 
 interface RuleFiltersProps {
-    availableTags: string[];
     onSearch: (filters: RuleSearchFilters) => void;
 }
 
-export function RuleFilters({ availableTags, onSearch }: RuleFiltersProps) {
+export function RuleFilters({ onSearch }: RuleFiltersProps) {
     const [filters, setFilters] = useState<RuleSearchFilters>({
         minSupport: 0.1,
         minConfidence: 0.6,
         tags: [],
     });
+
+    const [newTag, setNewTag] = useState<string>('');
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -26,43 +27,45 @@ export function RuleFilters({ availableTags, onSearch }: RuleFiltersProps) {
         }));
     };
 
-    const availableTagsFiltered = availableTags.filter((tag) => !filters.tags.includes(tag));
-
-    const handleTagSelect = (tag: string) => {
-        setFilters((prev) => ({
-            ...prev,
-            tags: [...prev.tags, tag],
-        }));
+    const handleAddTag = () => {
+        if (newTag.trim() && !filters.tags.includes(newTag)) {
+            setFilters(prev => ({
+                ...prev,
+                tags: [...prev.tags, newTag.trim()],
+            }));
+            setNewTag(''); // Resetta il campo input
+        }
     };
 
     const handleRemoveTag = (tagToRemove: string) => {
-        setFilters((prev) => ({
+        setFilters(prev => ({
             ...prev,
-            tags: prev.tags.filter((tag) => tag !== tagToRemove),
+            tags: prev.tags.filter(tag => tag !== tagToRemove),
         }));
     };
+
 
     return (
         <form onSubmit={handleSubmit} className={styles.form}>
             <div className={styles.tagSection}>
-                <div className={styles.tagSelect}>
-                    <label htmlFor="tags">Tags</label>
-                    <select
-                        id="tags"
-                        onChange={(e) => {
-                            if (e.target.value) {
-                                handleTagSelect(e.target.value);
-                                e.target.value = '';
-                            }
-                        }}
-                    >
-                        <option value="">Seleziona i tags...</option>
-                        {availableTagsFiltered.map((tag) => (
-                            <option key={tag} value={tag}>
-                                {tag}
-                            </option>
-                        ))}
-                    </select>
+            <div className={styles.input}>
+                    <label htmlFor="newTag">Tags</label>
+                    <div className={styles.tagInputWrapper}>
+                        <button
+                            type="button"
+                            onClick={handleAddTag}
+                            className={styles.addTagButton}
+                        >
+                            +
+                        </button>
+                        <input
+                            type="text"
+                            id="newTag"
+                            placeholder="Aggiungi un tag..."
+                            value={newTag}
+                            onChange={e => setNewTag(e.target.value)}
+                        />
+                    </div>
                 </div>
                 <div className={styles.selectedTags}>
                     {filters.tags.map((tag) => (

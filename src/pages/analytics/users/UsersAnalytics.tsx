@@ -1,4 +1,4 @@
-import { OnwerCard } from "@/components/users-photos/top-owners/OwnerCard";
+import { OnwerCard } from "@/components/analytics/users/OwnerCard";
 import top_owner_styles from './top-owners.module.css';
 import styles from '@/pages/common.module.css';
 import { useState, useEffect } from "react";
@@ -6,7 +6,7 @@ import type { FirstPost, OwnerSearched, PopularOwner, UserSearchFilters } from "
 import { getFirstPostPerYear, getOwners, getPopularOwners, getProVsNonPro } from "@/components/api/api";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
 import { UsersChart } from "@/components/charts/UsersChart";
-import { OwnerSearchFilters } from "@/components/users-photos/top-owners/OwnerSearchFilters";
+import { OwnerSearchFilters } from "@/components/analytics/users/OwnerSearchFilters";
 import photo_search_styles from "@/components/users-photos/photo-search/search-filters.module.css";
 import { DoughnutChart } from "@/components/charts/DoughnutChart";
 import { BubbleChart } from "@/components/charts/BubbleChart";
@@ -145,6 +145,7 @@ export function UsersAnalytics() {
             )}
           </div>
         </div>
+        <hr />
         <div className={styles.explanation}>
           <h1 className={styles.subtitle}>Ricerca Utente</h1>
           <p>
@@ -168,7 +169,7 @@ export function UsersAnalytics() {
               </div>
             ) : (
               <div className={photo_search_styles.noResults}>
-                Non è stata trovata nessuna foto che soddisfi i filtri!
+                Non è stata trovato nessun utente che soddisfa i filtri!
               </div>
             )
           ) : (

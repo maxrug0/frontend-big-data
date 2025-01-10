@@ -61,24 +61,24 @@ export function SearchFilters({ onSearch }: SearchFiltersProps) {
                 </div>
             </div>
             <div className={styles.tagSection}>
-            <div className={styles.input}>
-                <label htmlFor="newTag">Tags</label>
-                    <div className={styles.tagInputWrapper}>
-                        <button
-                            type="button"
-                            onClick={handleAddTag}
-                            className={styles.addTagButton}
-                        >
-                            +
-                        </button>
-                        <input
-                            type="text"
-                            id="newTag"
-                            placeholder="Aggiungi un tag..."
-                            value={newTag}
-                            onChange={e => setNewTag(e.target.value)}
-                        />
-                    </div>
+                <div className={styles.input}>
+                    <label htmlFor="newTag">Tags</label>
+                        <div className={styles.tagInputWrapper}>
+                            <button
+                                type="button"
+                                onClick={handleAddTag}
+                                className={styles.addTagButton}
+                            >
+                                +
+                            </button>
+                            <input
+                                type="text"
+                                id="newTag"
+                                placeholder="Aggiungi un tag..."
+                                value={newTag}
+                                onChange={e => setNewTag(e.target.value)}
+                            />
+                        </div>
                 </div>
                 <div className={styles.selectedTags}>
                     {filters.tags.map(tag => (

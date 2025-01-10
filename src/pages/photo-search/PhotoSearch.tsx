@@ -1,10 +1,10 @@
 import photo_search_styles from './photo-search.module.css';
 import styles from '../common.module.css';
-import { SearchFilters } from '@/components/users-photos/photo-search/SearchFilters';
+import { SearchFilters } from '@/components/analytics/photos/SearchFilters';
 import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
 import { useState } from 'react';
 import { PhotoSearched, PhotoSearchFilters } from '@/lib/types';
-import { PhotoCard } from '@/components/users-photos/photo-search/PhotoCard';
+import { PhotoCard } from '@/components/analytics/photos/PhotoCard';
 import { getPhotos } from '@/components/api/api';
 
 export function PhotoSearch() {
